@@ -1,6 +1,6 @@
 # CODESYS Industrial Machine Simulation
 
-![concept image](assests/process_flow_concept_img.png)
+![concept image](assets/process_flow_concept_img.png)
 
 A simulated industrial production cell developed in CODESYS
 using IEC 61131-3 programming principles.
