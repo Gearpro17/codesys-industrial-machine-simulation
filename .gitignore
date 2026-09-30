@@ -1,0 +1,12 @@
+# Visual Studio / CMake
+.vs/
+out/
+build/
+build-cli/
+CMakeSettings.json
+CppProperties.json
+*.ipch
+*.opendb
+*.db-shm
+*.db-wal
+*.user
