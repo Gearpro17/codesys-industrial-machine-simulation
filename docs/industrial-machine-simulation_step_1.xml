@@ -1,0 +1,1797 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://www.plcopen.org/xml/tc6_0200">
+  <fileHeader companyName="" productName="CODESYS" productVersion="CODESYS V3.5 SP22 Patch 2" creationDateTime="2026-10-06T16:26:03.0821542" />
+  <contentHeader name="industrial-machine-simulation.project" modificationDateTime="2026-10-06T16:23:11.8509653">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="1" y="1" />
+      </fbd>
+      <ld>
+        <scaling x="1" y="1" />
+      </ld>
+      <sfc>
+        <scaling x="1" y="1" />
+      </sfc>
+    </coordinateInfo>
+    <addData>
+      <data name="http://www.3s-software.com/plcopenxml/projectinformation" handleUnknown="implementation">
+        <ProjectInformation />
+      </data>
+    </addData>
+  </contentHeader>
+  <types>
+    <dataTypes />
+    <pous />
+  </types>
+  <instances>
+    <configurations>
+      <configuration name="Device">
+        <resource name="Application">
+          <task name="MainTask" interval="PT0.02S" priority="1">
+            <pouInstance name="PLC_PRG" typeName="">
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+              </documentation>
+            </pouInstance>
+            <pouInstance name="SmokeTest" typeName="">
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+              </documentation>
+            </pouInstance>
+            <addData>
+              <data name="http://www.3s-software.com/plcopenxml/tasksettings" handleUnknown="implementation">
+                <TaskSettings KindOfTask="Cyclic" Interval="t#20ms" IntervalUnit="ms" WithinSPSTimeSlicing="true">
+                  <Watchdog Enabled="false" TimeUnit="ms" Sensitivity="1" />
+                </TaskSettings>
+              </data>
+              <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                <ObjectId>4c0fc86b-7bde-43ff-88ad-e9f3b12b77c0</ObjectId>
+              </data>
+            </addData>
+          </task>
+          <task name="VISU_TASK" interval="PT0.1S" priority="31">
+            <pouInstance name="VisuElems.Visu_Prg" typeName="">
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+              </documentation>
+            </pouInstance>
+            <addData>
+              <data name="http://www.3s-software.com/plcopenxml/tasksettings" handleUnknown="implementation">
+                <TaskSettings KindOfTask="Cyclic" Interval="100" IntervalUnit="ms" WithinSPSTimeSlicing="true">
+                  <Watchdog Enabled="false" TimeUnit="ms" />
+                </TaskSettings>
+              </data>
+              <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                <ObjectId>4ce79a0b-a8e2-44b2-8af8-d85866571d00</ObjectId>
+              </data>
+            </addData>
+          </task>
+          <globalVars name="GVL">
+            <variable name="xInput">
+              <type>
+                <BOOL />
+              </type>
+            </variable>
+            <variable name="xOutput">
+              <type>
+                <BOOL />
+              </type>
+            </variable>
+            <addData>
+              <data name="http://www.3s-software.com/plcopenxml/attributes" handleUnknown="implementation">
+                <Attributes>
+                  <Attribute Name="qualified_only" Value="" />
+                </Attributes>
+              </data>
+              <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                <ObjectId>b04658e0-0277-4635-9a51-a6ed0fd5ea00</ObjectId>
+              </data>
+            </addData>
+          </globalVars>
+          <addData>
+            <data name="http://www.3s-software.com/plcopenxml/pou" handleUnknown="implementation">
+              <pou name="PLC_PRG" pouType="program">
+                <interface>
+                  <localVars>
+                    <variable name="bBTN_Paro">
+                      <type>
+                        <BOOL />
+                      </type>
+                    </variable>
+                    <variable name="siEstados">
+                      <type>
+                        <SINT />
+                      </type>
+                    </variable>
+                    <variable name="stEstados">
+                      <type>
+                        <string length="INT#20" />
+                      </type>
+                    </variable>
+                    <variable name="bBTN_Home">
+                      <type>
+                        <BOOL />
+                      </type>
+                    </variable>
+                    <variable name="bBTN_Manual">
+                      <type>
+                        <BOOL />
+                      </type>
+                    </variable>
+                    <variable name="bBTN_Auto">
+                      <type>
+                        <BOOL />
+                      </type>
+                    </variable>
+                    <variable name="bIniciarPrograma">
+                      <type>
+                        <BOOL />
+                      </type>
+                    </variable>
+                    <variable name="bTestsInicio">
+                      <type>
+                        <BOOL />
+                      </type>
+                    </variable>
+                  </localVars>
+                  <addData>
+                    <data name="http://www.3s-software.com/plcopenxml/attributes" handleUnknown="implementation">
+                      <Attributes>
+                        <Attribute Name="do_checks_for_implicit_code" Value="" />
+                      </Attributes>
+                    </data>
+                  </addData>
+                </interface>
+                <actions>
+                  <action name="Estados_Maquina">
+                    <body>
+                      <LD>
+                        <!--ObjectVersion: LD1-->
+                        <leftPowerRail localId="0">
+                          <position x="0" y="0" />
+                          <connectionPointOut formalParameter="none" />
+                        </leftPowerRail>
+                        <comment localId="1" height="0" width="0">
+                          <position x="0" y="0" />
+                          <content>
+                            <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                          </content>
+                        </comment>
+                        <vendorElement localId="2">
+                          <position x="0" y="0" />
+                          <alternativeText>
+                            <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                          </alternativeText>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                              <ElementType xmlns="">networktitle</ElementType>
+                            </data>
+                          </addData>
+                        </vendorElement>
+                        <contact localId="5" negated="false" storage="none" edge="none">
+                          <position x="0" y="0" />
+                          <connectionPointIn>
+                            <connection refLocalId="0" />
+                          </connectionPointIn>
+                          <connectionPointOut />
+                          <variable>bBTN_Paro</variable>
+                        </contact>
+                        <inVariable localId="6">
+                          <position x="0" y="0" />
+                          <connectionPointOut />
+                          <expression>1</expression>
+                        </inVariable>
+                        <block localId="4" typeName="MOVE">
+                          <position x="0" y="0" />
+                          <inputVariables>
+                            <variable formalParameter="EN">
+                              <connectionPointIn>
+                                <connection refLocalId="5" />
+                              </connectionPointIn>
+                            </variable>
+                            <variable formalParameter="In2">
+                              <connectionPointIn>
+                                <connection refLocalId="6" />
+                              </connectionPointIn>
+                            </variable>
+                          </inputVariables>
+                          <inOutVariables />
+                          <outputVariables>
+                            <variable formalParameter="ENO">
+                              <connectionPointOut />
+                            </variable>
+                            <variable formalParameter="Out2">
+                              <connectionPointOut>
+                                <expression>siEstados</expression>
+                              </connectionPointOut>
+                            </variable>
+                          </outputVariables>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                              <CallType xmlns="">operator</CallType>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                              <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/outputparamtypes" handleUnknown="implementation">
+                              <OutputParamTypes xmlns="" />
+                            </data>
+                          </addData>
+                        </block>
+                        <inVariable localId="7">
+                          <position x="0" y="0" />
+                          <connectionPointOut />
+                          <expression>'Modo Paro'</expression>
+                        </inVariable>
+                        <block localId="3" typeName="MOVE">
+                          <position x="0" y="0" />
+                          <inputVariables>
+                            <variable formalParameter="EN">
+                              <connectionPointIn>
+                                <connection refLocalId="4" formalParameter="ENO" />
+                              </connectionPointIn>
+                            </variable>
+                            <variable formalParameter="In2">
+                              <connectionPointIn>
+                                <connection refLocalId="7" />
+                              </connectionPointIn>
+                            </variable>
+                          </inputVariables>
+                          <inOutVariables />
+                          <outputVariables>
+                            <variable formalParameter="ENO">
+                              <connectionPointOut />
+                            </variable>
+                            <variable formalParameter="Out2">
+                              <connectionPointOut>
+                                <expression>stEstados</expression>
+                              </connectionPointOut>
+                            </variable>
+                          </outputVariables>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                              <CallType xmlns="">operator</CallType>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                              <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/outputparamtypes" handleUnknown="implementation">
+                              <OutputParamTypes xmlns="" />
+                            </data>
+                          </addData>
+                        </block>
+                        <comment localId="8" height="0" width="0">
+                          <position x="0" y="0" />
+                          <content>
+                            <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                          </content>
+                        </comment>
+                        <vendorElement localId="9">
+                          <position x="0" y="0" />
+                          <alternativeText>
+                            <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                          </alternativeText>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                              <ElementType xmlns="">networktitle</ElementType>
+                            </data>
+                          </addData>
+                        </vendorElement>
+                        <contact localId="12" negated="false" storage="none" edge="none">
+                          <position x="0" y="0" />
+                          <connectionPointIn>
+                            <connection refLocalId="0" />
+                          </connectionPointIn>
+                          <connectionPointOut />
+                          <variable>bBTN_Home</variable>
+                        </contact>
+                        <contact localId="13" negated="true" storage="none" edge="none">
+                          <position x="0" y="0" />
+                          <connectionPointIn>
+                            <connection refLocalId="12" />
+                          </connectionPointIn>
+                          <connectionPointOut />
+                          <variable>bBTN_Paro</variable>
+                        </contact>
+                        <inVariable localId="14">
+                          <position x="0" y="0" />
+                          <connectionPointOut />
+                          <expression>2</expression>
+                        </inVariable>
+                        <block localId="11" typeName="MOVE">
+                          <position x="0" y="0" />
+                          <inputVariables>
+                            <variable formalParameter="EN">
+                              <connectionPointIn>
+                                <connection refLocalId="13" />
+                              </connectionPointIn>
+                            </variable>
+                            <variable formalParameter="In2">
+                              <connectionPointIn>
+                                <connection refLocalId="14" />
+                              </connectionPointIn>
+                            </variable>
+                          </inputVariables>
+                          <inOutVariables />
+                          <outputVariables>
+                            <variable formalParameter="ENO">
+                              <connectionPointOut />
+                            </variable>
+                            <variable formalParameter="Out2">
+                              <connectionPointOut>
+                                <expression>siEstados</expression>
+                              </connectionPointOut>
+                            </variable>
+                          </outputVariables>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                              <CallType xmlns="">operator</CallType>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                              <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/outputparamtypes" handleUnknown="implementation">
+                              <OutputParamTypes xmlns="" />
+                            </data>
+                          </addData>
+                        </block>
+                        <inVariable localId="15">
+                          <position x="0" y="0" />
+                          <connectionPointOut />
+                          <expression>'Modo Home'</expression>
+                        </inVariable>
+                        <block localId="10" typeName="MOVE">
+                          <position x="0" y="0" />
+                          <inputVariables>
+                            <variable formalParameter="EN">
+                              <connectionPointIn>
+                                <connection refLocalId="11" formalParameter="ENO" />
+                              </connectionPointIn>
+                            </variable>
+                            <variable formalParameter="In2">
+                              <connectionPointIn>
+                                <connection refLocalId="15" />
+                              </connectionPointIn>
+                            </variable>
+                          </inputVariables>
+                          <inOutVariables />
+                          <outputVariables>
+                            <variable formalParameter="ENO">
+                              <connectionPointOut />
+                            </variable>
+                            <variable formalParameter="Out2">
+                              <connectionPointOut>
+                                <expression>stEstados</expression>
+                              </connectionPointOut>
+                            </variable>
+                          </outputVariables>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                              <CallType xmlns="">operator</CallType>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                              <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/outputparamtypes" handleUnknown="implementation">
+                              <OutputParamTypes xmlns="" />
+                            </data>
+                          </addData>
+                        </block>
+                        <comment localId="16" height="0" width="0">
+                          <position x="0" y="0" />
+                          <content>
+                            <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                          </content>
+                        </comment>
+                        <vendorElement localId="17">
+                          <position x="0" y="0" />
+                          <alternativeText>
+                            <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                          </alternativeText>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                              <ElementType xmlns="">networktitle</ElementType>
+                            </data>
+                          </addData>
+                        </vendorElement>
+                        <contact localId="20" negated="false" storage="none" edge="none">
+                          <position x="0" y="0" />
+                          <connectionPointIn>
+                            <connection refLocalId="0" />
+                          </connectionPointIn>
+                          <connectionPointOut />
+                          <variable>bBTN_Manual</variable>
+                        </contact>
+                        <contact localId="21" negated="true" storage="none" edge="none">
+                          <position x="0" y="0" />
+                          <connectionPointIn>
+                            <connection refLocalId="20" />
+                          </connectionPointIn>
+                          <connectionPointOut />
+                          <variable>bBTN_Paro</variable>
+                        </contact>
+                        <inVariable localId="22">
+                          <position x="0" y="0" />
+                          <connectionPointOut />
+                          <expression>3</expression>
+                        </inVariable>
+                        <block localId="19" typeName="MOVE">
+                          <position x="0" y="0" />
+                          <inputVariables>
+                            <variable formalParameter="EN">
+                              <connectionPointIn>
+                                <connection refLocalId="21" />
+                              </connectionPointIn>
+                            </variable>
+                            <variable formalParameter="In2">
+                              <connectionPointIn>
+                                <connection refLocalId="22" />
+                              </connectionPointIn>
+                            </variable>
+                          </inputVariables>
+                          <inOutVariables />
+                          <outputVariables>
+                            <variable formalParameter="ENO">
+                              <connectionPointOut />
+                            </variable>
+                            <variable formalParameter="Out2">
+                              <connectionPointOut>
+                                <expression>siEstados</expression>
+                              </connectionPointOut>
+                            </variable>
+                          </outputVariables>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                              <CallType xmlns="">operator</CallType>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                              <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/outputparamtypes" handleUnknown="implementation">
+                              <OutputParamTypes xmlns="" />
+                            </data>
+                          </addData>
+                        </block>
+                        <inVariable localId="23">
+                          <position x="0" y="0" />
+                          <connectionPointOut />
+                          <expression>'Modo Manual'</expression>
+                        </inVariable>
+                        <block localId="18" typeName="MOVE">
+                          <position x="0" y="0" />
+                          <inputVariables>
+                            <variable formalParameter="EN">
+                              <connectionPointIn>
+                                <connection refLocalId="19" formalParameter="ENO" />
+                              </connectionPointIn>
+                            </variable>
+                            <variable formalParameter="In2">
+                              <connectionPointIn>
+                                <connection refLocalId="23" />
+                              </connectionPointIn>
+                            </variable>
+                          </inputVariables>
+                          <inOutVariables />
+                          <outputVariables>
+                            <variable formalParameter="ENO">
+                              <connectionPointOut />
+                            </variable>
+                            <variable formalParameter="Out2">
+                              <connectionPointOut>
+                                <expression>stEstados</expression>
+                              </connectionPointOut>
+                            </variable>
+                          </outputVariables>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                              <CallType xmlns="">operator</CallType>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                              <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/outputparamtypes" handleUnknown="implementation">
+                              <OutputParamTypes xmlns="" />
+                            </data>
+                          </addData>
+                        </block>
+                        <comment localId="24" height="0" width="0">
+                          <position x="0" y="0" />
+                          <content>
+                            <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                          </content>
+                        </comment>
+                        <vendorElement localId="25">
+                          <position x="0" y="0" />
+                          <alternativeText>
+                            <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                          </alternativeText>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                              <ElementType xmlns="">networktitle</ElementType>
+                            </data>
+                          </addData>
+                        </vendorElement>
+                        <contact localId="28" negated="false" storage="none" edge="none">
+                          <position x="0" y="0" />
+                          <connectionPointIn>
+                            <connection refLocalId="0" />
+                          </connectionPointIn>
+                          <connectionPointOut />
+                          <variable>bBTN_Auto</variable>
+                        </contact>
+                        <contact localId="29" negated="true" storage="none" edge="none">
+                          <position x="0" y="0" />
+                          <connectionPointIn>
+                            <connection refLocalId="28" />
+                          </connectionPointIn>
+                          <connectionPointOut />
+                          <variable>bBTN_Paro</variable>
+                        </contact>
+                        <inVariable localId="30">
+                          <position x="0" y="0" />
+                          <connectionPointOut />
+                          <expression>4</expression>
+                        </inVariable>
+                        <block localId="27" typeName="MOVE">
+                          <position x="0" y="0" />
+                          <inputVariables>
+                            <variable formalParameter="EN">
+                              <connectionPointIn>
+                                <connection refLocalId="29" />
+                              </connectionPointIn>
+                            </variable>
+                            <variable formalParameter="In2">
+                              <connectionPointIn>
+                                <connection refLocalId="30" />
+                              </connectionPointIn>
+                            </variable>
+                          </inputVariables>
+                          <inOutVariables />
+                          <outputVariables>
+                            <variable formalParameter="ENO">
+                              <connectionPointOut />
+                            </variable>
+                            <variable formalParameter="Out2">
+                              <connectionPointOut>
+                                <expression>siEstados</expression>
+                              </connectionPointOut>
+                            </variable>
+                          </outputVariables>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                              <CallType xmlns="">operator</CallType>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                              <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/outputparamtypes" handleUnknown="implementation">
+                              <OutputParamTypes xmlns="" />
+                            </data>
+                          </addData>
+                        </block>
+                        <inVariable localId="31">
+                          <position x="0" y="0" />
+                          <connectionPointOut />
+                          <expression>'Modo Auto'</expression>
+                        </inVariable>
+                        <block localId="26" typeName="MOVE">
+                          <position x="0" y="0" />
+                          <inputVariables>
+                            <variable formalParameter="EN">
+                              <connectionPointIn>
+                                <connection refLocalId="27" formalParameter="ENO" />
+                              </connectionPointIn>
+                            </variable>
+                            <variable formalParameter="In2">
+                              <connectionPointIn>
+                                <connection refLocalId="31" />
+                              </connectionPointIn>
+                            </variable>
+                          </inputVariables>
+                          <inOutVariables />
+                          <outputVariables>
+                            <variable formalParameter="ENO">
+                              <connectionPointOut />
+                            </variable>
+                            <variable formalParameter="Out2">
+                              <connectionPointOut>
+                                <expression>stEstados</expression>
+                              </connectionPointOut>
+                            </variable>
+                          </outputVariables>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdcalltype" handleUnknown="implementation">
+                              <CallType xmlns="">operator</CallType>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/inputparamtypes" handleUnknown="implementation">
+                              <InputParamTypes xmlns="">BOOL</InputParamTypes>
+                            </data>
+                            <data name="http://www.3s-software.com/plcopenxml/outputparamtypes" handleUnknown="implementation">
+                              <OutputParamTypes xmlns="" />
+                            </data>
+                          </addData>
+                        </block>
+                        <rightPowerRail localId="2147483646">
+                          <position x="0" y="0" />
+                          <connectionPointIn />
+                        </rightPowerRail>
+                      </LD>
+                    </body>
+                    <addData>
+                      <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                        <ObjectId>7041afee-ceeb-44a0-8d79-cc48994a2c6f</ObjectId>
+                      </data>
+                    </addData>
+                  </action>
+                  <action name="Alarmas">
+                    <body>
+                      <LD>
+                        <!--ObjectVersion: LD1-->
+                        <leftPowerRail localId="0">
+                          <position x="0" y="0" />
+                          <connectionPointOut formalParameter="none" />
+                        </leftPowerRail>
+                        <comment localId="1" height="0" width="0">
+                          <position x="0" y="0" />
+                          <content>
+                            <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                          </content>
+                        </comment>
+                        <vendorElement localId="2">
+                          <position x="0" y="0" />
+                          <alternativeText>
+                            <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                          </alternativeText>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                              <ElementType xmlns="">networktitle</ElementType>
+                            </data>
+                          </addData>
+                        </vendorElement>
+                        <rightPowerRail localId="2147483646">
+                          <position x="0" y="0" />
+                          <connectionPointIn />
+                        </rightPowerRail>
+                      </LD>
+                    </body>
+                    <addData>
+                      <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                        <ObjectId>3a1b23d4-2dc3-447b-9ba6-0ff738650807</ObjectId>
+                      </data>
+                    </addData>
+                  </action>
+                  <action name="_aInit_active">
+                    <body>
+                      <LD>
+                        <!--ObjectVersion: LD1-->
+                        <leftPowerRail localId="0">
+                          <position x="0" y="0" />
+                          <connectionPointOut formalParameter="none" />
+                        </leftPowerRail>
+                        <comment localId="1" height="0" width="0">
+                          <position x="0" y="0" />
+                          <content>
+                            <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                          </content>
+                        </comment>
+                        <vendorElement localId="2">
+                          <position x="0" y="0" />
+                          <alternativeText>
+                            <xhtml xmlns="http://www.w3.org/1999/xhtml" />
+                          </alternativeText>
+                          <addData>
+                            <data name="http://www.3s-software.com/plcopenxml/fbdelementtype" handleUnknown="implementation">
+                              <ElementType xmlns="">networktitle</ElementType>
+                            </data>
+                          </addData>
+                        </vendorElement>
+                        <contact localId="3" negated="false" storage="none" edge="none">
+                          <position x="0" y="0" />
+                          <connectionPointIn>
+                            <connection refLocalId="0" />
+                          </connectionPointIn>
+                          <connectionPointOut />
+                          <variable>bTestsInicio</variable>
+                        </contact>
+                        <coil localId="4" negated="false" storage="set">
+                          <position x="0" y="0" />
+                          <connectionPointIn>
+                            <connection refLocalId="3" />
+                          </connectionPointIn>
+                          <connectionPointOut />
+                          <variable>bIniciarPrograma</variable>
+                        </coil>
+                        <rightPowerRail localId="2147483646">
+                          <position x="0" y="0" />
+                          <connectionPointIn />
+                        </rightPowerRail>
+                      </LD>
+                    </body>
+                    <addData>
+                      <data name="http://www.3s-software.com/plcopenxml/sfc_embedded" handleUnknown="implementation">
+                        <SFCEmbedded value="true" />
+                      </data>
+                      <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                        <ObjectId>78228ac9-294e-428f-9d0c-4108df468974</ObjectId>
+                      </data>
+                    </addData>
+                  </action>
+                </actions>
+                <body>
+                  <SFC>
+                    <step localId="0" initialStep="true" name="Init">
+                      <position x="0" y="0" />
+                      <connectionPointIn />
+                      <connectionPointOut formalParameter="sfc" />
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">Init</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="6844a48e-46c2-4cc8-a185-a478f3b99cc0">TRUE</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                            <attribute guid="700a583f-b4d4-43e4-8c14-629c7cd3bec8">_aInit_active</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </step>
+                    <inVariable localId="1">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>bIniciarPrograma</expression>
+                    </inVariable>
+                    <transition localId="2">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="0" formalParameter="sfc" />
+                      </connectionPointIn>
+                      <condition>
+                        <connectionPointIn>
+                          <connection refLocalId="1" />
+                        </connectionPointIn>
+                      </condition>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">bIniciarPrograma</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                            <attribute guid="8294df19-5962-4dee-a874-1051dabb0e3e">0</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </transition>
+                    <step localId="3" name="_Sup">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="2" />
+                      </connectionPointIn>
+                      <connectionPointOut formalParameter="sfc" />
+                      <connectionPointOutAction formalParameter="x" />
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">_Sup</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="6844a48e-46c2-4cc8-a185-a478f3b99cc0">FALSE</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </step>
+                    <actionBlock localId="6">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="3" />
+                      </connectionPointIn>
+                      <action localId="4" qualifier="S" duration="" indicator="">
+                        <relPosition x="0" y="0" />
+                        <reference name="Estados_Maquina" />
+                        <connectionPointOut />
+                        <addData>
+                          <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                            <attributes xmlns="">
+                              <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">Estados_Maquina</attribute>
+                              <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                              <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                              <attribute guid="e174fc0d-80b0-4a9e-a530-ca239c249a50">S</attribute>
+                            </attributes>
+                          </data>
+                        </addData>
+                      </action>
+                      <action localId="5" qualifier="S" duration="" indicator="">
+                        <relPosition x="0" y="0" />
+                        <reference name="Alarmas" />
+                        <connectionPointOut />
+                        <addData>
+                          <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                            <attributes xmlns="">
+                              <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">Alarmas</attribute>
+                              <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                              <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                              <attribute guid="e174fc0d-80b0-4a9e-a530-ca239c249a50">S</attribute>
+                            </attributes>
+                          </data>
+                        </addData>
+                      </action>
+                    </actionBlock>
+                    <selectionDivergence localId="7">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="3" />
+                      </connectionPointIn>
+                      <connectionPointOut formalParameter="sfc" />
+                      <connectionPointOut formalParameter="sfc" />
+                      <connectionPointOut formalParameter="sfc" />
+                      <connectionPointOut formalParameter="sfc" />
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">Branch0</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="23bdaa98-72ec-41f7-817b-9dede5697086">FALSE</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </selectionDivergence>
+                    <inVariable localId="8">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>siEstados=1</expression>
+                    </inVariable>
+                    <transition localId="9">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="7" formalParameter="sfc" />
+                      </connectionPointIn>
+                      <condition>
+                        <connectionPointIn>
+                          <connection refLocalId="8" />
+                        </connectionPointIn>
+                      </condition>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">siEstados=1</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                            <attribute guid="8294df19-5962-4dee-a874-1051dabb0e3e">0</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </transition>
+                    <step localId="10" name="_Paro">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="9" />
+                      </connectionPointIn>
+                      <connectionPointOut formalParameter="sfc" />
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">_Paro</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="6844a48e-46c2-4cc8-a185-a478f3b99cc0">FALSE</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </step>
+                    <inVariable localId="11">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>siEstados&lt;&gt;1</expression>
+                    </inVariable>
+                    <transition localId="12">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="10" formalParameter="sfc" />
+                      </connectionPointIn>
+                      <condition>
+                        <connectionPointIn>
+                          <connection refLocalId="11" />
+                        </connectionPointIn>
+                      </condition>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">siEstados&lt;&gt;1</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                            <attribute guid="8294df19-5962-4dee-a874-1051dabb0e3e">0</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </transition>
+                    <inVariable localId="13">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>siEstados=2</expression>
+                    </inVariable>
+                    <transition localId="14">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="7" formalParameter="sfc" />
+                      </connectionPointIn>
+                      <condition>
+                        <connectionPointIn>
+                          <connection refLocalId="13" />
+                        </connectionPointIn>
+                      </condition>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">siEstados=2</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                            <attribute guid="8294df19-5962-4dee-a874-1051dabb0e3e">0</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </transition>
+                    <step localId="15" name="_Home">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="14" />
+                      </connectionPointIn>
+                      <connectionPointOut formalParameter="sfc" />
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">_Home</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="6844a48e-46c2-4cc8-a185-a478f3b99cc0">FALSE</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </step>
+                    <inVariable localId="16">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>siEstados&lt;&gt;2</expression>
+                    </inVariable>
+                    <transition localId="17">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="15" formalParameter="sfc" />
+                      </connectionPointIn>
+                      <condition>
+                        <connectionPointIn>
+                          <connection refLocalId="16" />
+                        </connectionPointIn>
+                      </condition>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">siEstados&lt;&gt;2</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                            <attribute guid="8294df19-5962-4dee-a874-1051dabb0e3e">0</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </transition>
+                    <inVariable localId="18">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>siEstados=3</expression>
+                    </inVariable>
+                    <transition localId="19">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="7" formalParameter="sfc" />
+                      </connectionPointIn>
+                      <condition>
+                        <connectionPointIn>
+                          <connection refLocalId="18" />
+                        </connectionPointIn>
+                      </condition>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">siEstados=3</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                            <attribute guid="8294df19-5962-4dee-a874-1051dabb0e3e">0</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </transition>
+                    <step localId="20" name="_Manual">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="19" />
+                      </connectionPointIn>
+                      <connectionPointOut formalParameter="sfc" />
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">_Manual</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="6844a48e-46c2-4cc8-a185-a478f3b99cc0">FALSE</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </step>
+                    <inVariable localId="21">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>siEstados&lt;&gt;3</expression>
+                    </inVariable>
+                    <transition localId="22">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="20" formalParameter="sfc" />
+                      </connectionPointIn>
+                      <condition>
+                        <connectionPointIn>
+                          <connection refLocalId="21" />
+                        </connectionPointIn>
+                      </condition>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">siEstados&lt;&gt;3</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                            <attribute guid="8294df19-5962-4dee-a874-1051dabb0e3e">0</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </transition>
+                    <inVariable localId="23">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>siEstados=4</expression>
+                    </inVariable>
+                    <transition localId="24">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="7" formalParameter="sfc" />
+                      </connectionPointIn>
+                      <condition>
+                        <connectionPointIn>
+                          <connection refLocalId="23" />
+                        </connectionPointIn>
+                      </condition>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">siEstados=4</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                            <attribute guid="8294df19-5962-4dee-a874-1051dabb0e3e">0</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </transition>
+                    <step localId="25" name="_Auto">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="24" />
+                      </connectionPointIn>
+                      <connectionPointOut formalParameter="sfc" />
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">_Auto</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="6844a48e-46c2-4cc8-a185-a478f3b99cc0">FALSE</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </step>
+                    <inVariable localId="26">
+                      <position x="0" y="0" />
+                      <connectionPointOut />
+                      <expression>siEstados&lt;&gt;4</expression>
+                    </inVariable>
+                    <transition localId="27">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="25" formalParameter="sfc" />
+                      </connectionPointIn>
+                      <condition>
+                        <connectionPointIn>
+                          <connection refLocalId="26" />
+                        </connectionPointIn>
+                      </condition>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">siEstados&lt;&gt;4</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                            <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                            <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                            <attribute guid="8294df19-5962-4dee-a874-1051dabb0e3e">0</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </transition>
+                    <selectionConvergence localId="28">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="12" formalParameter="sfc" />
+                      </connectionPointIn>
+                      <connectionPointIn>
+                        <connection refLocalId="17" formalParameter="sfc" />
+                      </connectionPointIn>
+                      <connectionPointIn>
+                        <connection refLocalId="22" formalParameter="sfc" />
+                      </connectionPointIn>
+                      <connectionPointIn>
+                        <connection refLocalId="27" formalParameter="sfc" />
+                      </connectionPointIn>
+                      <connectionPointOut />
+                    </selectionConvergence>
+                    <jumpStep localId="29" targetName="_Sup">
+                      <position x="0" y="0" />
+                      <connectionPointIn>
+                        <connection refLocalId="28" />
+                      </connectionPointIn>
+                      <addData>
+                        <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                          <attributes xmlns="">
+                            <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">_Sup</attribute>
+                            <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                          </attributes>
+                        </data>
+                      </addData>
+                    </jumpStep>
+                  </SFC>
+                </body>
+                <addData>
+                  <data name="http://www.3s-software.com/plcopenxml/sfcsettings" handleUnknown="implementation">
+                    <SFCSettings>
+                      <LibTitle>IecSfc</LibTitle>
+                      <LibCompany>System</LibCompany>
+                      <LibVersion>4.4.0.0</LibVersion>
+                      <LibNamespace>IecSfc</LibNamespace>
+                      <CalcActiveTransOnly>false</CalcActiveTransOnly>
+                      <UseDefaults>false</UseDefaults>
+                      <Flags>
+                        <EnableLimit Declare="true" Use="false" />
+                        <Init Declare="true" Use="false" />
+                        <Reset Declare="true" Use="false" />
+                        <QuitError Declare="true" Use="false" />
+                        <Pause Declare="true" Use="false" />
+                        <Error Declare="true" Use="false" />
+                        <Trans Declare="true" Use="false" />
+                        <ErrorStep Declare="true" Use="false" />
+                        <ErrorPOU Declare="true" Use="false" />
+                        <CurrentStep Declare="true" Use="false" />
+                        <Tip Declare="true" Use="false" />
+                        <TipMode Declare="true" Use="false" />
+                        <MaxFlags Declare="true" Use="false" />
+                        <SFCErrorAnalyzation Declare="true" Use="false" />
+                        <SFCErrorAnalyzationTable Declare="true" Use="false" />
+                        <CurrentSteps Declare="true" Use="false" />
+                        <MetaSteps Declare="true" Use="false" />
+                      </Flags>
+                    </SFCSettings>
+                  </data>
+                  <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                    <ObjectId>43c888ff-323e-4525-b933-30e414244baf</ObjectId>
+                  </data>
+                </addData>
+              </pou>
+            </data>
+            <data name="http://www.3s-software.com/plcopenxml/pou" handleUnknown="implementation">
+              <pou name="SmokeTest" pouType="program">
+                <interface />
+                <body>
+                  <ST>
+                    <xhtml xmlns="http://www.w3.org/1999/xhtml">GVL.xOutput := GVL.xInput;</xhtml>
+                  </ST>
+                </body>
+                <addData>
+                  <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                    <ObjectId>1bef51dc-41c9-4ce1-9446-c9495034109c</ObjectId>
+                  </data>
+                </addData>
+              </pou>
+            </data>
+            <data name="http://www.3s-software.com/plcopenxml/libraries" handleUnknown="implementation">
+              <Libraries>
+                <Library Name="#IoStandard" Namespace="IoStandard" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="true" DefaultResolution="IoStandard, 3.5.22.0 (System)" />
+                <Library Name="#3SLicense" Namespace="_3S_LICENSE" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="3SLicense, 0.0.0.0 (CODESYS)" ResolverGuid="97c3b452-d9fa-4ac2-9d0c-3d420aa6d95b" />
+                <Library Name="#CAA Device Diagnosis" Namespace="DED" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="CAA Device Diagnosis, 3.5.22.0 (CAA Technical Workgroup)" />
+                <Library Name="#Standard" Namespace="Standard" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="false" LinkAllContent="false" DefaultResolution="Standard, * (System)" />
+                <Library Name="#BreakpointLogging" Namespace="BPLog" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="Breakpoint Logging Functions, * (3S - Smart Software Solutions GmbH)" />
+                <Library Name="#IecSfc" Namespace="IecSfc" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="IecSfc, 4.4.0.0 (System)" />
+                <Library Name="#Analyzation" Namespace="Analyzation" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="Analyzation, 4.1.0.0 (System)" />
+                <Library Name="#System_VisuElems" Namespace="VisuElems" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElems, 4.9.1.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemMeter" Namespace="VisuElemMeter" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemMeter, 4.9.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemsSpecialControls" Namespace="VisuElemsSpecialControls" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemsSpecialControls, 4.7.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemsWinControls" Namespace="VisuElemsWinControls" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemsWinControls, 4.9.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemTextEditor" Namespace="VisuElemTextEditor" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemTextEditor, 4.8.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemTrace" Namespace="VisuElemTrace" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemTrace, 4.9.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuNativeControl" Namespace="VisuNativeControl" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuNativeControl, 4.9.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemsAlarm" Namespace="VisuElemsAlarm" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemsAlarm, 4.9.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemCamDisplayer" Namespace="VisuElemCamDisplayer" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemCamDisplayer, 4.7.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElem3DPath" Namespace="VisuElem3DPath" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElem3DPath, 4.7.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemsDateTime" Namespace="VisuElemsDateTime" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemsDateTime, 4.9.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuElemXYChart" Namespace="VisuElemXYChart" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuElemXYChart, 4.8.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#System_VisuInputs" Namespace="VisuInputs" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="VisuInputs, 4.7.0.0 (System)" ResolverGuid="2717eb6a-dd07-4c66-8d8d-cacebd7b18ae" />
+                <Library Name="#IoDrvEthernet" Namespace="IoDrvEthernet" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="IoDrvEthernet, 4.2.0.0 (3S - Smart Software Solutions GmbH)" />
+                <Library Name="#IoDrvModbusTCP" Namespace="IoDrvModbusTCP" HideWhenReferencedAsDependency="false" PublishSymbolsInContainer="false" SystemLibrary="true" LinkAllContent="false" DefaultResolution="IoDrvModbusTCP, 4.5.1.0 (CODESYS)" />
+                <PlaceholderRedirections>
+                  <PlaceholderRedirection Placeholder="Standard" Redirection="Standard, 3.5.22.0 (System)" />
+                  <PlaceholderRedirection Placeholder="Standard64" Redirection="Standard64, 3.5.20.0 (System)" />
+                  <PlaceholderRedirection Placeholder="StringUtils" Redirection="StringUtils, 3.5.22.0 (System)" />
+                  <PlaceholderRedirection Placeholder="Util" Redirection="Util, 3.5.22.0 (System)" />
+                  <PlaceholderRedirection Placeholder="Collections" Redirection="Collections, 3.5.17.0 (System)" />
+                </PlaceholderRedirections>
+                <addData>
+                  <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                    <ObjectId>3b0a62e9-99fe-4938-9efd-61579236a286</ObjectId>
+                  </data>
+                </addData>
+              </Libraries>
+            </data>
+            <data name="http://www.3s-software.com/plcopenxml/buildproperties" handleUnknown="implementation">
+              <BuildProperties>
+                <CompilerDefines>GENERATE_OVERLAY_VISU,VISU_USEPROPERTYINFO</CompilerDefines>
+              </BuildProperties>
+            </data>
+            <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+              <ObjectId>61eef367-4022-4ed9-a38e-79e0f99fd4e1</ObjectId>
+            </data>
+          </addData>
+        </resource>
+        <addData>
+          <data name="Device" handleUnknown="discard">
+            <Device xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="">
+              <DeviceType>
+                <DeviceIdentification>
+                  <Type>4096</Type>
+                  <Id>0000 0004</Id>
+                  <Version>3.5.22.20</Version>
+                </DeviceIdentification>
+                <Connector moduleType="256" interface="Common.PCI" connectorId="0">
+                  <HostParameterSet />
+                </Connector>
+                <Connector moduleType="769" interface="SafetyInterface" connectorId="1">
+                  <HostParameterSet />
+                </Connector>
+                <DeviceParameterSet />
+                <DriverInfo />
+              </DeviceType>
+            </Device>
+          </data>
+          <data name="configurations" handleUnknown="discard">
+            <configurations>
+              <configuration name="Ethernet">
+                <addData>
+                  <data name="Device" handleUnknown="discard">
+                    <Device xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="">
+                      <DeviceType>
+                        <DeviceIdentification>
+                          <Type>110</Type>
+                          <Id>0000 0002</Id>
+                          <Version>4.2.0.0</Version>
+                        </DeviceIdentification>
+                        <Connector moduleType="110" role="child" interface="Common.PCI" connectorId="1">
+                          <HostParameterSet />
+                        </Connector>
+                        <Connector moduleType="111" interface="Common.Ethernet" connectorId="2" hostpath="1">
+                          <HostParameterSet>
+                            <ParameterSection>
+                              <Name>IP-Settings PLC 2</Name>
+                              <Description />
+                              <Parameter ParameterId="200" type="std:WSTRING" IndexInDevDesc="24">
+                                <Attributes />
+                                <Value name="_x0032_00" visiblename="NetworkInterfaceName" desc="Configured Name of Ethernet Interface (PLC 2).">""</Value>
+                                <Name>NetworkInterfaceName</Name>
+                                <Description>Configured Name of Ethernet Interface (PLC 2).</Description>
+                              </Parameter>
+                              <Parameter ParameterId="201" type="std:ARRAY[0..3] OF BYTE" IndexInDevDesc="25">
+                                <Attributes />
+                                <Value name="_x0032_01" visiblename="IPAddress" desc="Configured IP Address of the Ethernet Interface (PLC 2).">[192, 168, 0, 2]</Value>
+                                <Name>IPAddress</Name>
+                                <Description>Configured IP Address of the Ethernet Interface (PLC 2).</Description>
+                              </Parameter>
+                              <Parameter ParameterId="202" type="std:ARRAY[0..3] OF BYTE" IndexInDevDesc="26">
+                                <Attributes />
+                                <Value name="_x0032_02" visiblename="SubnetMask" desc="Configured Subnet Mask of the Ethernet Interface (PLC 2).">[255, 255, 255, 0]</Value>
+                                <Name>SubnetMask</Name>
+                                <Description>Configured Subnet Mask of the Ethernet Interface (PLC 2).</Description>
+                              </Parameter>
+                              <Parameter ParameterId="203" type="std:ARRAY[0..3] OF BYTE" IndexInDevDesc="27">
+                                <Attributes />
+                                <Value name="_x0032_03" visiblename="GatewayAddress" desc="Configured Default Gateway of the Ethernet Interface (PLC 2).">[0, 0, 0, 0]</Value>
+                                <Name>GatewayAddress</Name>
+                                <Description>Configured Default Gateway of the Ethernet Interface (PLC 2).</Description>
+                              </Parameter>
+                            </ParameterSection>
+                            <Parameter ParameterId="0" type="std:ARRAY[0..3] OF BYTE" IndexInDevDesc="0">
+                              <Attributes />
+                              <Value name="_x0030_" visiblename="IPAddress" desc="Configure IP Address of the Controller on the EtherNet bus (IP).">[192, 168, 0, 1]</Value>
+                              <Name>IPAddress</Name>
+                              <Description>Configure IP Address of the Controller on the EtherNet bus (IP).</Description>
+                            </Parameter>
+                            <Parameter ParameterId="1" type="std:ARRAY[0..3] OF BYTE" IndexInDevDesc="1">
+                              <Attributes />
+                              <Value name="_x0031_" visiblename="SubnetMask" desc="Configure IP Address of the Controller on the EtherNet bus (Mask).">[255, 255, 255, 0]</Value>
+                              <Name>SubnetMask</Name>
+                              <Description>Configure IP Address of the Controller on the EtherNet bus (Mask).</Description>
+                            </Parameter>
+                            <Parameter ParameterId="2" type="std:ARRAY[0..3] OF BYTE" IndexInDevDesc="2">
+                              <Attributes />
+                              <Value name="_x0032_" visiblename="GatewayAddress" desc="Configure IP Address of the Controller on the EtherNet bus (Gateway).">[0, 0, 0, 0]</Value>
+                              <Name>GatewayAddress</Name>
+                              <Description>Configure IP Address of the Controller on the EtherNet bus (Gateway).</Description>
+                            </Parameter>
+                            <Parameter ParameterId="3" type="localTypes:TransferRateType" IndexInDevDesc="3">
+                              <Attributes />
+                              <Value name="_x0033_" visiblename="TransferRate" desc="Configure Bus speed of the EtherNet.">0</Value>
+                              <Name>TransferRate</Name>
+                              <Description>Configure Bus speed of the EtherNet.</Description>
+                            </Parameter>
+                            <Parameter ParameterId="4" type="localTypes:IPConfigModeType" IndexInDevDesc="4">
+                              <Attributes />
+                              <Value name="_x0034_" visiblename="IPConfigMode" desc="Configure the method this device uses for obtaining an IP address.">1</Value>
+                              <Name>IPConfigMode</Name>
+                              <Description>Configure the method this device uses for obtaining an IP address.</Description>
+                            </Parameter>
+                            <Parameter ParameterId="5" type="std:STRING" IndexInDevDesc="5">
+                              <Attributes />
+                              <Value name="_x0035_" visiblename="DeviceName" desc="Configure the Network-/Device- Name, e.g. for DHCP addressing Use case.">'myDevice'</Value>
+                              <Name>DeviceName</Name>
+                              <Description>Configure the Network-/Device- Name, e.g. for DHCP addressing Use case.</Description>
+                            </Parameter>
+                            <Parameter ParameterId="6" type="std:BOOL" IndexInDevDesc="6">
+                              <Attributes />
+                              <Value name="_x0036_" visiblename="WebServer" desc="Configure activation of WEB server">true</Value>
+                              <Name>WebServer</Name>
+                              <Description>Configure activation of WEB server</Description>
+                            </Parameter>
+                            <Parameter ParameterId="9" type="std:ARRAY[0..5] OF BYTE" IndexInDevDesc="7">
+                              <Attributes offlineaccess="read" />
+                              <Value name="_x0039_" visiblename="MACAddress" offlineaccess="read" desc="MAC Address">[16#0, 16#0, 16#0, 16#0, 16#0, 16#0]</Value>
+                              <Name>MACAddress</Name>
+                              <Description>MAC Address</Description>
+                            </Parameter>
+                            <Parameter ParameterId="10" type="std:STRING" IndexInDevDesc="8">
+                              <Attributes />
+                              <Value name="_x0031_0" visiblename="NetworkInterfaceName" desc="Configure Name of Network Interface">''</Value>
+                              <Name>NetworkInterfaceName</Name>
+                              <Description>Configure Name of Network Interface</Description>
+                            </Parameter>
+                            <Parameter ParameterId="11" type="localTypes:ProtocolEnumType" IndexInDevDesc="9">
+                              <Attributes />
+                              <Value name="_x0031_1" visiblename="EtherNetProtocol" desc="Configure EtherNet Protocol (Ethernet2 or 802.3 frames)">0</Value>
+                              <Name>EtherNetProtocol</Name>
+                              <Description>Configure EtherNet Protocol (Ethernet2 or 802.3 frames)</Description>
+                            </Parameter>
+                            <Parameter ParameterId="12" type="std:WSTRING" IndexInDevDesc="10">
+                              <Attributes />
+                              <Value name="_x0031_2" visiblename="NetworkInterfaceName" desc="Configure Name of Network Interface - Unicode">""</Value>
+                              <Name>NetworkInterfaceName</Name>
+                              <Description>Configure Name of Network Interface - Unicode</Description>
+                            </Parameter>
+                            <Parameter ParameterId="13" type="std:BOOL" IndexInDevDesc="11">
+                              <Attributes />
+                              <Value name="_x0031_3" visiblename="SaveCommunicationSettings" desc="TRUE: IP, SubnetMask and GatewayAddress will be set to the configured values at the PLC's OS!">false</Value>
+                              <Name>SaveCommunicationSettings</Name>
+                              <Description>TRUE: IP, SubnetMask and GatewayAddress will be set to the configured values at the PLC's OS!</Description>
+                            </Parameter>
+                            <Parameter ParameterId="100" type="std:ARRAY[0..3] OF BYTE" IndexInDevDesc="12">
+                              <Attributes offlineaccess="read" />
+                              <Value name="_x0031_00" visiblename="IPAddress" offlineaccess="read" desc="Actual IP Address of the Controller on the EtherNet bus (IP).">[192, 168, 0, 1]</Value>
+                              <Name>IPAddress</Name>
+                              <Description>Actual IP Address of the Controller on the EtherNet bus (IP).</Description>
+                            </Parameter>
+                            <Parameter ParameterId="101" type="std:ARRAY[0..3] OF BYTE" IndexInDevDesc="13">
+                              <Attributes offlineaccess="read" />
+                              <Value name="_x0031_01" visiblename="SubnetMask" offlineaccess="read" desc="Actual IP Address of the Controller on the EtherNet bus (Mask).">[255, 255, 255, 0]</Value>
+                              <Name>SubnetMask</Name>
+                              <Description>Actual IP Address of the Controller on the EtherNet bus (Mask).</Description>
+                            </Parameter>
+                            <Parameter ParameterId="102" type="std:ARRAY[0..3] OF BYTE" IndexInDevDesc="14">
+                              <Attributes offlineaccess="read" />
+                              <Value name="_x0031_02" visiblename="GatewayAddress" offlineaccess="read" desc="Actual IP Address of the Controller on the EtherNet bus (Gateway).">[0, 0, 0, 0]</Value>
+                              <Name>GatewayAddress</Name>
+                              <Description>Actual IP Address of the Controller on the EtherNet bus (Gateway).</Description>
+                            </Parameter>
+                            <Parameter ParameterId="103" type="localTypes:TransferRateType" IndexInDevDesc="15">
+                              <Attributes offlineaccess="read" />
+                              <Value name="_x0031_03" visiblename="TransferRate" offlineaccess="read" desc="Actual Bus speed of the EtherNet.">0</Value>
+                              <Name>TransferRate</Name>
+                              <Description>Actual Bus speed of the EtherNet.</Description>
+                            </Parameter>
+                            <Parameter ParameterId="104" type="localTypes:IPConfigModeType" IndexInDevDesc="16">
+                              <Attributes offlineaccess="read" />
+                              <Value name="_x0031_04" visiblename="IPConfigMode" offlineaccess="read" desc="Actual method this device uses for obtaining an IP address.">1</Value>
+                              <Name>IPConfigMode</Name>
+                              <Description>Actual method this device uses for obtaining an IP address.</Description>
+                            </Parameter>
+                            <Parameter ParameterId="105" type="std:STRING" IndexInDevDesc="17">
+                              <Attributes offlineaccess="read" />
+                              <Value name="_x0031_05" visiblename="DeviceName" offlineaccess="read" desc="Actual Network-/Device- Name, e.g. for DHCP addressing Use case.">'my Device'</Value>
+                              <Name>DeviceName</Name>
+                              <Description>Actual Network-/Device- Name, e.g. for DHCP addressing Use case.</Description>
+                            </Parameter>
+                            <Parameter ParameterId="106" type="std:BOOL" IndexInDevDesc="18">
+                              <Attributes offlineaccess="read" />
+                              <Value name="_x0031_06" visiblename="WebServer" offlineaccess="read" desc="Actual activation state of WEB server">true</Value>
+                              <Name>WebServer</Name>
+                              <Description>Actual activation state of WEB server</Description>
+                            </Parameter>
+                            <Parameter ParameterId="107" type="localTypes:NetworkStatusType" IndexInDevDesc="19">
+                              <Attributes offlineaccess="read" />
+                              <Value name="_x0031_07" visiblename="NetworkStatus" offlineaccess="read" desc="Actual network status.">1</Value>
+                              <Name>NetworkStatus</Name>
+                              <Description>Actual network status.</Description>
+                            </Parameter>
+                            <Parameter ParameterId="108" type="localTypes:ModuleStatusType" IndexInDevDesc="20">
+                              <Attributes offlineaccess="read" />
+                              <Value name="_x0031_08" visiblename="ModuleStatus" offlineaccess="read" desc="Actual module status.">1</Value>
+                              <Name>ModuleStatus</Name>
+                              <Description>Actual module status.</Description>
+                            </Parameter>
+                            <Parameter ParameterId="109" type="std:ARRAY[0..5] OF BYTE" IndexInDevDesc="21">
+                              <Attributes offlineaccess="read" />
+                              <Value name="_x0031_09" visiblename="MACAddress" offlineaccess="read" desc="Actual MAC Address.">[16#0, 16#0, 16#0, 16#0, 16#0, 16#0]</Value>
+                              <Name>MACAddress</Name>
+                              <Description>Actual MAC Address.</Description>
+                            </Parameter>
+                            <Parameter ParameterId="110" type="std:STRING" IndexInDevDesc="22">
+                              <Attributes offlineaccess="read" />
+                              <Value name="_x0031_10" visiblename="NetworkInterfaceName" offlineaccess="read" desc="Actual Name of Network Interface">'ether 0'</Value>
+                              <Name>NetworkInterfaceName</Name>
+                              <Description>Actual Name of Network Interface</Description>
+                            </Parameter>
+                            <Parameter ParameterId="111" type="localTypes:ProtocolEnumType" IndexInDevDesc="23">
+                              <Attributes offlineaccess="read" />
+                              <Value name="_x0031_11" visiblename="EtherNetProtocol" offlineaccess="read" desc="Actual configured EtherNet Protocol">0</Value>
+                              <Name>EtherNetProtocol</Name>
+                              <Description>Actual configured EtherNet Protocol</Description>
+                            </Parameter>
+                            <Parameter ParameterId="2006" type="localTypes:EthDiag" IndexInDevDesc="28">
+                              <Attributes channel="diag" offlineaccess="read" onlineaccess="read" />
+                              <Value name="_x0032_006" visiblename="EthDiag" offlineaccess="read" onlineaccess="read" desc="Ethernet diagnostic information">
+                                <Element name="CurrentIP" visiblename="Current IP" />
+                                <Element name="CurrentSubnet" visiblename="Current subnet mask" />
+                                <Element name="CurrentGateway" visiblename="Current gateway address" />
+                                <Element name="IPChanges" visiblename="IP changes" desc="Amount of IP configuration changes since startup (IP or gateway address or subnet mask)" />
+                              </Value>
+                              <Name>EthDiag</Name>
+                              <Description>Ethernet diagnostic information</Description>
+                            </Parameter>
+                            <Parameter ParameterId="2007" type="std:BOOL" IndexInDevDesc="29">
+                              <Attributes channel="diagAck" offlineaccess="none" onlineaccess="none" />
+                              <Value name="_x0032_007" visiblename="Diag Acknowledge" offlineaccess="none" onlineaccess="none" desc="Diag Acknowledge">FALSE</Value>
+                              <Name>Diag Acknowledge</Name>
+                              <Description>Diag Acknowledge</Description>
+                            </Parameter>
+                            <Parameter ParameterId="10000000" type="std:BOOL" IndexInDevDesc="30">
+                              <Attributes offlineaccess="none" />
+                              <Value name="_x0031_0000000" visiblename="WebserverVisible" offlineaccess="none" desc="enable/disable configuration of parameter WebServer">false</Value>
+                              <Name>WebserverVisible</Name>
+                              <Description>enable/disable configuration of parameter WebServer</Description>
+                            </Parameter>
+                            <Parameter ParameterId="10000001" type="std:BOOL" IndexInDevDesc="31">
+                              <Attributes offlineaccess="none" />
+                              <Value name="_x0031_0000001" visiblename="NetworkInterfaceVisible" offlineaccess="none" desc="enable/disable configuration of parameter NetworkInterfaceName">true</Value>
+                              <Name>NetworkInterfaceVisible</Name>
+                              <Description>enable/disable configuration of parameter NetworkInterfaceName</Description>
+                            </Parameter>
+                            <Parameter ParameterId="10000002" type="std:BOOL" IndexInDevDesc="32">
+                              <Attributes download="false" offlineaccess="none" />
+                              <Value name="_x0031_0000002" visiblename="OnlineStatusScreenEnabled" offlineaccess="none" desc="enable/disable Online-Status Screen">false</Value>
+                              <Name>OnlineStatusScreenEnabled</Name>
+                              <Description>enable/disable Online-Status Screen</Description>
+                            </Parameter>
+                            <Parameter ParameterId="10000003" type="std:WSTRING" IndexInDevDesc="33">
+                              <Attributes download="false" offlineaccess="read" />
+                              <Value name="_x0031_0000003" visiblename="ReadOnlyNIC" offlineaccess="read" desc="NIC whose communication settings shall not be changed.">""</Value>
+                              <Name>ReadOnlyNIC</Name>
+                              <Description>NIC whose communication settings shall not be changed.</Description>
+                            </Parameter>
+                            <Parameter ParameterId="10000004" type="std:BOOL" IndexInDevDesc="34">
+                              <Attributes offlineaccess="none" />
+                              <Value name="_x0031_0000004" visiblename="UseAsyncTask" offlineaccess="none" desc="Use async task to check the network connectivity. This relieves the bus cycle task.">true</Value>
+                              <Name>UseAsyncTask</Name>
+                              <Description>Use async task to check the network connectivity. This relieves the bus cycle task.</Description>
+                            </Parameter>
+                            <Parameter ParameterId="20000000" type="std:__XWORD" IndexInDevDesc="35">
+                              <Attributes offlineaccess="none" />
+                              <Value name="_x0032_0000000" visiblename="Dummy Parameter" offlineaccess="none" desc="Dummy Parameter">0</Value>
+                              <Name>Dummy Parameter</Name>
+                              <Description>Dummy Parameter</Description>
+                            </Parameter>
+                            <Parameter ParameterId="805306369" type="std:BOOL" IndexInDevDesc="36">
+                              <Attributes download="false" offlineaccess="none" />
+                              <Value name="_x0038_05306369" visiblename="ShowLoggerPage" offlineaccess="none" desc="Show the logger page for the scanner">true</Value>
+                              <Name>ShowLoggerPage</Name>
+                              <Description>Show the logger page for the scanner</Description>
+                            </Parameter>
+                          </HostParameterSet>
+                          <DriverInfo />
+                        </Connector>
+                        <DeviceParameterSet />
+                      </DeviceType>
+                    </Device>
+                  </data>
+                  <data name="configurations" handleUnknown="discard">
+                    <configurations>
+                      <configuration name="Modbus_TCP_Client">
+                        <addData>
+                          <data name="Device" handleUnknown="discard">
+                            <Device xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="">
+                              <DeviceType>
+                                <DeviceIdentification>
+                                  <Type>88</Type>
+                                  <Id>0000 0003</Id>
+                                  <Version>4.5.1.0</Version>
+                                </DeviceIdentification>
+                                <Connector moduleType="88" role="child" interface="Common.Ethernet" connectorId="1">
+                                  <HostParameterSet />
+                                </Connector>
+                                <Connector moduleType="88" interface="Common.ModbusTCPMaster" connectorId="2" hostpath="1">
+                                  <HostParameterSet>
+                                    <Parameter ParameterId="8000" type="std:BOOL" IndexInDevDesc="0">
+                                      <Attributes download="false" offlineaccess="read" />
+                                      <Value name="_x0038_000" visiblename="ExtendedChannelConfig" offlineaccess="read" desc="Use the new Channel-Config format">true</Value>
+                                      <Name>ExtendedChannelConfig</Name>
+                                      <Description>Use the new Channel-Config format</Description>
+                                    </Parameter>
+                                    <Parameter ParameterId="8002" type="std:BOOL" IndexInDevDesc="1">
+                                      <Attributes onlineaccess="read" />
+                                      <Value name="_x0038_002" visiblename="OptimizationOn" onlineaccess="read" desc="the driver optimizes the io update">TRUE</Value>
+                                      <Name>OptimizationOn</Name>
+                                      <Description>the driver optimizes the io update</Description>
+                                    </Parameter>
+                                    <Parameter ParameterId="9001" type="std:UDINT" IndexInDevDesc="2">
+                                      <Attributes />
+                                      <Value name="_x0039_001" visiblename="ResponseTimeOut" desc="Response time in milliseconds">1000</Value>
+                                      <Name>ResponseTimeOut</Name>
+                                      <Description>Response time in milliseconds</Description>
+                                    </Parameter>
+                                    <Parameter ParameterId="9002" type="std:BOOL" IndexInDevDesc="3">
+                                      <Attributes />
+                                      <Value name="_x0039_002" visiblename="AutoReconnect" desc="auto-confirm error and re-establish TCP connection">FALSE</Value>
+                                      <Name>AutoReconnect</Name>
+                                      <Description>auto-confirm error and re-establish TCP connection</Description>
+                                    </Parameter>
+                                    <Parameter ParameterId="9010" type="local:FBInstance" IndexInDevDesc="4">
+                                      <Attributes download="false" offlineaccess="read" />
+                                      <Value name="_x0039_010" visiblename="ModbusTCP Client Instance" offlineaccess="read" desc="Implicit Function Block for Modbus Clients.">
+                                        <Element name="FBType" visiblename="FBType">'ModbusTCPSlaveUnit'</Element>
+                                        <Element name="FBDiagType" visiblename="FBDiagType">'ModbusTCPSlaveUnit_Diag'</Element>
+                                        <Element name="InitMethodName" visiblename="InitMethodName">'Initialize'</Element>
+                                      </Value>
+                                      <Name>ModbusTCP Client Instance</Name>
+                                      <Description>Implicit Function Block for Modbus Clients.</Description>
+                                    </Parameter>
+                                  </HostParameterSet>
+                                  <DriverInfo />
+                                </Connector>
+                                <DeviceParameterSet />
+                              </DeviceType>
+                            </Device>
+                          </data>
+                          <data name="configurations" handleUnknown="discard">
+                            <configurations>
+                              <configuration name="Modbus_TCP_Server">
+                                <addData>
+                                  <data name="Device" handleUnknown="discard">
+                                    <Device xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="">
+                                      <DeviceType>
+                                        <DeviceIdentification>
+                                          <Type>89</Type>
+                                          <Id>0000 0005</Id>
+                                          <Version>4.5.0.0</Version>
+                                        </DeviceIdentification>
+                                        <Connector moduleType="89" role="child" interface="Common.ModbusTCPMaster" connectorId="1">
+                                          <HostParameterSet>
+                                            <Parameter ParameterId="8000" type="std:BOOL" IndexInDevDesc="0">
+                                              <Attributes download="false" offlineaccess="read" />
+                                              <Value name="_x0038_000" visiblename="NewChannelConfig" offlineaccess="read" desc="Use the new Channel-Config format">true</Value>
+                                              <Name>NewChannelConfig</Name>
+                                              <Description>Use the new Channel-Config format</Description>
+                                            </Parameter>
+                                            <Parameter ParameterId="9100" type="std:USINT" IndexInDevDesc="1">
+                                              <Attributes />
+                                              <Value name="_x0039_100" visiblename="Unit-ID" desc="Unit-ID of the Device">1</Value>
+                                              <Name>Unit-ID</Name>
+                                              <Description>Unit-ID of the Device</Description>
+                                            </Parameter>
+                                            <Parameter ParameterId="9101" type="std:DWORD" IndexInDevDesc="2">
+                                              <Attributes />
+                                              <Value name="_x0039_101" visiblename="ResponseTimeout" desc="Maximum time for a Server to respond in ms">1000</Value>
+                                              <Name>ResponseTimeout</Name>
+                                              <Description>Maximum time for a Server to respond in ms</Description>
+                                            </Parameter>
+                                            <Parameter ParameterId="9102" type="std:ARRAY[0..3] OF BYTE" IndexInDevDesc="3">
+                                              <Attributes />
+                                              <Value name="_x0039_102" visiblename="IPAddress" desc="Configure IP Address of TCP Server.">[127, 0, 0, 1]</Value>
+                                              <Name>IPAddress</Name>
+                                              <Description>Configure IP Address of TCP Server.</Description>
+                                            </Parameter>
+                                            <Parameter ParameterId="9103" type="std:UINT" IndexInDevDesc="4">
+                                              <Attributes />
+                                              <Value name="_x0039_103" visiblename="Port" desc="Port where the Server is listening">502</Value>
+                                              <Name>Port</Name>
+                                              <Description>Port where the Server is listening</Description>
+                                            </Parameter>
+                                            <Parameter ParameterId="9200" type="localTypes:ServerDiagT" IndexInDevDesc="5">
+                                              <Attributes channel="diag" offlineaccess="read" onlineaccess="read" />
+                                              <Value name="_x0039_200" visiblename="Server Diag" offlineaccess="read" onlineaccess="read" desc="Server's diagnostic information">
+                                                <Element name="StructVersion" visiblename="Diag Version" offlineaccess="none">1</Element>
+                                                <Element name="ComState" visiblename="ComState" desc="Current State of TCP Connection" />
+                                                <Element name="align" visiblename="align" offlineaccess="none" />
+                                                <Element name="RequestCounter" visiblename="Request Counter" />
+                                                <Element name="ErrorCounter" visiblename="Error Counter" />
+                                                <Element name="LastError" visiblename="Last Error">
+                                                  <Element name="Timestamp" visiblename="Timestamp" />
+                                                  <Element name="ChannelIndex" visiblename="Channel Index">-1</Element>
+                                                  <Element name="ErrorCode" visiblename="Error Code">16#FF</Element>
+                                                </Element>
+                                              </Value>
+                                              <Name>Server Diag</Name>
+                                              <Description>Server's diagnostic information</Description>
+                                            </Parameter>
+                                            <Parameter ParameterId="9201" type="std:BOOL" IndexInDevDesc="6">
+                                              <Attributes channel="diagAck" offlineaccess="none" onlineaccess="none" />
+                                              <Value name="_x0039_201" visiblename="Confirm Diagnosis" offlineaccess="none" onlineaccess="none">FALSE</Value>
+                                              <Name>Confirm Diagnosis</Name>
+                                            </Parameter>
+                                            <Parameter ParameterId="17825792" type="localTypes:CHANNEL_PACKED">
+                                              <Attributes />
+                                              <Value name="_x0031_7825792" visiblename="Channel 1" desc="ChannelConfig">
+                                                <Element name="FunctionCode" visiblename="Function Code">2</Element>
+                                                <Element name="ReadOffset" visiblename="Read Offset">16#0000</Element>
+                                                <Element name="ReadLength" visiblename="Read Length">1</Element>
+                                                <Element name="WriteOffset" visiblename="Write Offset">0</Element>
+                                                <Element name="WriteLength" visiblename="Write Length">0</Element>
+                                                <Element name="Trigger" visiblename="Trigger">5</Element>
+                                                <Element name="CycleTime" visiblename="Cycle Time">100</Element>
+                                                <Element name="ErrorHandling" visiblename="Error Handling">true</Element>
+                                                <Element name="EnableRegisterBitMapping" visiblename="EnableRegisterBitMapping" />
+                                              </Value>
+                                              <Name>Channel 1</Name>
+                                              <Description>ChannelConfig</Description>
+                                            </Parameter>
+                                            <Parameter ParameterId="21037056" type="std:ARRAY[0..0] OF BYTE">
+                                              <Attributes channel="input" />
+                                              <Value name="_x0032_1037056_0_0_0" visiblename="Channel 1[0]" desc="Read Discrete Inputs">
+                                                <Element name="_x0032_1037056_0_0_0_0" visiblename="Bit0" desc="0x0000">FALSE</Element>
+                                                <Element name="_x0032_1037056_0_0_0_1" visiblename="Bit1" offlineaccess="none" desc="Read Discrete Inputs">FALSE</Element>
+                                                <Element name="_x0032_1037056_0_0_0_2" visiblename="Bit2" offlineaccess="none" desc="Read Discrete Inputs">FALSE</Element>
+                                                <Element name="_x0032_1037056_0_0_0_3" visiblename="Bit3" offlineaccess="none" desc="Read Discrete Inputs">FALSE</Element>
+                                                <Element name="_x0032_1037056_0_0_0_4" visiblename="Bit4" offlineaccess="none" desc="Read Discrete Inputs">FALSE</Element>
+                                                <Element name="_x0032_1037056_0_0_0_5" visiblename="Bit5" offlineaccess="none" desc="Read Discrete Inputs">FALSE</Element>
+                                                <Element name="_x0032_1037056_0_0_0_6" visiblename="Bit6" offlineaccess="none" desc="Read Discrete Inputs">FALSE</Element>
+                                                <Element name="_x0032_1037056_0_0_0_7" visiblename="Bit7" offlineaccess="none" desc="Read Discrete Inputs">FALSE</Element>
+                                              </Value>
+                                              <Name>Channel 1</Name>
+                                              <Description>Read Discrete Inputs</Description>
+                                              <Mapping>
+                                                <Element name="_x0032_1037056_0_0_0">
+                                                  <Element name="_x0032_1037056_0_0_0_0">Application.GVL.xInput</Element>
+                                                </Element>xTestDI</Mapping>
+                                            </Parameter>
+                                            <Parameter ParameterId="34603008" type="localTypes:CHANNEL_PACKED">
+                                              <Attributes />
+                                              <Value name="_x0033_4603008" visiblename="Channel 2" desc="ChannelConfig">
+                                                <Element name="FunctionCode" visiblename="Function Code">5</Element>
+                                                <Element name="ReadOffset" visiblename="Read Offset">0</Element>
+                                                <Element name="ReadLength" visiblename="Read Length">0</Element>
+                                                <Element name="WriteOffset" visiblename="Write Offset">16#0000</Element>
+                                                <Element name="WriteLength" visiblename="Write Length">1</Element>
+                                                <Element name="Trigger" visiblename="Trigger">5</Element>
+                                                <Element name="CycleTime" visiblename="Cycle Time">100</Element>
+                                                <Element name="ErrorHandling" visiblename="Error Handling">true</Element>
+                                                <Element name="EnableRegisterBitMapping" visiblename="EnableRegisterBitMapping" />
+                                              </Value>
+                                              <Name>Channel 2</Name>
+                                              <Description>ChannelConfig</Description>
+                                            </Parameter>
+                                            <Parameter ParameterId="42074112" type="std:ARRAY[0..0] OF BYTE">
+                                              <Attributes channel="output" />
+                                              <Value name="_x0034_2074112_0_0_0" visiblename="Channel 2[0]" desc="Write Single Coil">
+                                                <Element name="_x0034_2074112_0_0_0_0" visiblename="Bit0" desc="0x0000">FALSE</Element>
+                                                <Element name="_x0034_2074112_0_0_0_1" visiblename="Bit1" offlineaccess="none" desc="Write Single Coil">FALSE</Element>
+                                                <Element name="_x0034_2074112_0_0_0_2" visiblename="Bit2" offlineaccess="none" desc="Write Single Coil">FALSE</Element>
+                                                <Element name="_x0034_2074112_0_0_0_3" visiblename="Bit3" offlineaccess="none" desc="Write Single Coil">FALSE</Element>
+                                                <Element name="_x0034_2074112_0_0_0_4" visiblename="Bit4" offlineaccess="none" desc="Write Single Coil">FALSE</Element>
+                                                <Element name="_x0034_2074112_0_0_0_5" visiblename="Bit5" offlineaccess="none" desc="Write Single Coil">FALSE</Element>
+                                                <Element name="_x0034_2074112_0_0_0_6" visiblename="Bit6" offlineaccess="none" desc="Write Single Coil">FALSE</Element>
+                                                <Element name="_x0034_2074112_0_0_0_7" visiblename="Bit7" offlineaccess="none" desc="Write Single Coil">FALSE</Element>
+                                              </Value>
+                                              <Name>Channel 2</Name>
+                                              <Description>Write Single Coil</Description>
+                                              <Mapping>
+                                                <Element name="_x0034_2074112_0_0_0">
+                                                  <Element name="_x0034_2074112_0_0_0_0">Application.GVL.xOutput</Element>
+                                                </Element>
+                                              </Mapping>
+                                            </Parameter>
+                                            <Parameter ParameterId="1879052288" type="std:UDINT" IndexInDevDesc="7">
+                                              <Attributes offlineaccess="read" onlineaccess="read" />
+                                              <Value name="_x0031_879052288" visiblename="ConfigVersion" offlineaccess="read" onlineaccess="read">16#03050B00</Value>
+                                              <Name>ConfigVersion</Name>
+                                            </Parameter>
+                                          </HostParameterSet>
+                                          <DriverInfo />
+                                        </Connector>
+                                        <Connector moduleType="95" interface="Common.ModbusSerialGateway" connectorId="2" hostpath="1">
+                                          <HostParameterSet />
+                                        </Connector>
+                                        <DeviceParameterSet />
+                                      </DeviceType>
+                                    </Device>
+                                  </data>
+                                  <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                                    <ObjectId>7eea518e-4d66-44c5-99d2-56439de807cb</ObjectId>
+                                  </data>
+                                </addData>
+                              </configuration>
+                            </configurations>
+                          </data>
+                          <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                            <ObjectId>954b15dd-e9d2-47cc-b0bd-f0a6c8c17187</ObjectId>
+                          </data>
+                        </addData>
+                      </configuration>
+                    </configurations>
+                  </data>
+                  <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                    <ObjectId>a236b3a0-81f7-47c8-a23a-fc26de01e2e8</ObjectId>
+                  </data>
+                </addData>
+              </configuration>
+            </configurations>
+          </data>
+          <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+            <ObjectId>b85027c4-310e-4f68-b6ce-863013420769</ObjectId>
+          </data>
+        </addData>
+      </configuration>
+    </configurations>
+  </instances>
+  <addData>
+    <data name="http://www.3s-software.com/plcopenxml/projectstructure" handleUnknown="discard">
+      <ProjectStructure>
+        <Object Name="Device" ObjectId="b85027c4-310e-4f68-b6ce-863013420769">
+          <Object Name="Application" ObjectId="61eef367-4022-4ed9-a38e-79e0f99fd4e1">
+            <Object Name="Library Manager" ObjectId="3b0a62e9-99fe-4938-9efd-61579236a286" />
+            <Object Name="PLC_PRG" ObjectId="43c888ff-323e-4525-b933-30e414244baf">
+              <Object Name="Estados_Maquina" ObjectId="7041afee-ceeb-44a0-8d79-cc48994a2c6f" />
+              <Object Name="Alarmas" ObjectId="3a1b23d4-2dc3-447b-9ba6-0ff738650807" />
+              <Object Name="_aInit_active" ObjectId="78228ac9-294e-428f-9d0c-4108df468974" />
+            </Object>
+            <Object Name="MainTask" ObjectId="4c0fc86b-7bde-43ff-88ad-e9f3b12b77c0" />
+            <Object Name="VISU_TASK" ObjectId="4ce79a0b-a8e2-44b2-8af8-d85866571d00" />
+            <Object Name="SmokeTest" ObjectId="1bef51dc-41c9-4ce1-9446-c9495034109c" />
+            <Object Name="GVL" ObjectId="b04658e0-0277-4635-9a51-a6ed0fd5ea00" />
+          </Object>
+          <Object Name="Ethernet" ObjectId="a236b3a0-81f7-47c8-a23a-fc26de01e2e8">
+            <Object Name="Modbus_TCP_Client" ObjectId="954b15dd-e9d2-47cc-b0bd-f0a6c8c17187">
+              <Object Name="Modbus_TCP_Server" ObjectId="7eea518e-4d66-44c5-99d2-56439de807cb" />
+            </Object>
+          </Object>
+        </Object>
+      </ProjectStructure>
+    </data>
+  </addData>
+</project>
