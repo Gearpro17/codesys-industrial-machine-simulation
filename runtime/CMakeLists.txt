@@ -19,3 +19,14 @@ foreach(tgt plant runtime)
   endif()
 endforeach()
 
+include(FetchContent)
+FetchContent_Declare(googletest
+  URL https://github.com/google/googletest/archive/refs/tags/v1.15.2.zip)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)   # needed with MSVC
+FetchContent_MakeAvailable(googletest)
+
+enable_testing()
+include(GoogleTest)
+add_executable(plant_tests tests/test_plant.cpp)
+target_link_libraries(plant_tests PRIVATE plant GTest::gtest_main)
+gtest_discover_tests(plant_tests)

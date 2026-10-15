@@ -94,3 +94,67 @@ TEST(Plant, BoxCoastsAfterMotorOff) {
     EXPECT_GT(coasted, 50.0);                                  // physically plausible window
     EXPECT_LT(coasted, 300.0);
 }
+TEST(Stacker, StartsAtUpLimit) {
+    Plant p;
+    p.step(kDt, Outputs{});
+    EXPECT_TRUE(p.inputs().stackerUpLimit);
+    EXPECT_FALSE(p.inputs().stackerDownLimit);
+}
+
+TEST(Stacker, TravelsDownInConfiguredTime) {
+    Plant p;
+    Outputs out; out.stackerDown = true;
+    for (int i = 0; i < 60; ++i) p.step(kDt, out);          // 0.6 s: mid-travel
+    EXPECT_FALSE(p.inputs().stackerUpLimit);
+    EXPECT_FALSE(p.inputs().stackerDownLimit);
+    for (int i = 0; i < 70; ++i) p.step(kDt, out);          // 1.3 s total > 1.2 s
+    EXPECT_TRUE(p.inputs().stackerDownLimit);
+}
+
+TEST(Stacker, BothCommandsHoldPosition) {
+    Plant p;
+    Outputs out; out.stackerUp = true; out.stackerDown = true;
+    for (int i = 0; i < 200; ++i) p.step(kDt, out);
+    EXPECT_TRUE(p.inputs().stackerUpLimit);                  // never moved from home
+}
+
+TEST(Stacker, StuckNeverReachesLimit) {
+    Plant p;
+    p.stacker().setStuck(true);
+    Outputs out; out.stackerDown = true;
+    for (int i = 0; i < 300; ++i) p.step(kDt, out);
+    EXPECT_FALSE(p.inputs().stackerDownLimit);               // timeout fault scenario
+}
+
+TEST(Gripper, ClosesAndReopens) {
+    Plant p;
+    Outputs out; out.gripperClose = true;
+    for (int i = 0; i < 60; ++i) p.step(kDt, out);
+    EXPECT_TRUE(p.inputs().gripperClosedFb);
+    out.gripperClose = false;
+    for (int i = 0; i < 60; ++i) p.step(kDt, out);
+    EXPECT_FALSE(p.inputs().gripperClosedFb);
+}
+
+TEST(RejectCylinder, RemovesBoxAtInspectionStation) {
+    Plant p;
+    p.spawnBox({ 1, 120.0, 300.0 });
+    Outputs out = runAt(500);
+    for (int i = 0; i < 400 && !p.inputs().inspectionSensor; ++i) p.step(kDt, out);
+    ASSERT_TRUE(p.inputs().inspectionSensor);
+
+    out.conveyorMotor = false;
+    out.rejectCylinder = true;
+    for (int i = 0; i < 50; ++i) p.step(kDt, out);           // 0.5 s > 0.3 s stroke
+
+    EXPECT_TRUE(p.boxes().empty());
+    EXPECT_EQ(p.rejectedCount(), 1);
+    EXPECT_FALSE(p.inputs().inspectionSensor);
+}
+
+TEST(RejectCylinder, NoBoxAtStationMeansNothingRejected) {
+    Plant p;
+    Outputs out; out.rejectCylinder = true;
+    for (int i = 0; i < 50; ++i) p.step(kDt, out);
+    EXPECT_EQ(p.rejectedCount(), 0);
+}

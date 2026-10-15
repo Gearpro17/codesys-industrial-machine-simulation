@@ -1,5 +1,6 @@
 #pragma once
-#include "io.h"
+#include "actuators.h"
+#include "plant_io.h"
 #include <random>
 #include <vector>
 
@@ -23,6 +24,9 @@ namespace plant {
         double pickupStopMm = 2000.0;  // mechanical stop: boxes cannot go further
         double motorTauS = 0.4;     // motor/belt time constant
         double heightNoiseMm = 0.3;     // sensor noise, std deviation
+        double rejectTravelS = 0.3;     // reject cylinder full stroke
+        double stackerTravelS = 1.2;     // stacker full stroke
+        double gripperTravelS = 0.5;     // gripper open <-> closed
     };
 
     // First-order lag: speed follows the target with time constant tau.
@@ -48,18 +52,29 @@ namespace plant {
 
         const Inputs& inputs() const { return in_; }
         const std::vector<Box>& boxes()  const { return boxes_; }
+        int                     rejectedCount() const { return rejected_; }
+
+        // Fault injection access
         MotorModel& motor() { return motor_; }
+        LinearActuator& rejectCylinder() { return rejectCyl_; }
+        LinearActuator& stacker() { return stacker_; }
+        LinearActuator& gripper() { return gripper_; }
 
     private:
-        const Box* boxAt(double posMm) const;            // box whose body covers posMm
+        static bool covers(const Box& b, double posMm);  // does the box body cover posMm?
+        const Box* boxAt(double posMm) const;
 
-        PlantConfig cfg_;
-        MotorModel  motor_;
-        std::mt19937 rng_;
+        PlantConfig    cfg_;
+        MotorModel     motor_;
+        LinearActuator rejectCyl_;   // 0 = retracted, 1 = extended
+        LinearActuator stacker_;     // 0 = down,      1 = up
+        LinearActuator gripper_;     // 0 = open,      1 = closed
+        std::mt19937   rng_;
         std::normal_distribution<double> heightNoise_;
         std::vector<Box> boxes_;
         Inputs in_{};
         int nextId_ = 1;
+        int rejected_ = 0;
     };
 
 } // namespace plant
