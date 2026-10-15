@@ -1,6 +1,7 @@
 #pragma once
 #include "actuators.h"
 #include "plant_io.h"
+#include <optional>
 #include <random>
 #include <vector>
 
@@ -18,6 +19,15 @@ namespace plant {
         double  frontMm;   // leading edge position along the belt (belt starts at 0)
     };
 
+    // Automatic infeed: spawns boxes at the belt start, never closer than minGapMm.
+    struct FeederConfig {
+        bool   enabled = false;     // off by default: tests spawn boxes by hand
+        double intervalS = 3.0;       // minimum time between boxes
+        double minGapMm = 150.0;     // required free belt behind the previous box
+        std::vector<BoxSpec> catalog = { { 1, 120.0, 300.0 },{ 2, 80.0, 300.0 },{ 3, 160.0, 300.0 } };
+        std::vector<double>  weights = { 0.70, 0.15, 0.15 };   // one per catalog entry
+    };
+
     struct PlantConfig {
         double entrySensorMm = 300.0;
         double inspectionMm = 1200.0;
@@ -27,6 +37,10 @@ namespace plant {
         double rejectTravelS = 0.3;     // reject cylinder full stroke
         double stackerTravelS = 1.2;     // stacker full stroke
         double gripperTravelS = 0.5;     // gripper open <-> closed
+        int    palletCapacity = 4;       // boxes per pallet
+        double palletChangeS = 3.0;     // time for a new empty pallet to arrive
+        bool   startWithPallet = true;
+        FeederConfig feeder;
     };
 
     // First-order lag: speed follows the target with time constant tau.
@@ -47,22 +61,35 @@ namespace plant {
     public:
         explicit Plant(PlantConfig cfg = {}, unsigned seed = 1);
 
-        void spawnBox(const BoxSpec& spec);              // leading edge enters at x = 0
+        // Puts a box at the belt start. If the entry is occupied it queues behind.
+        void spawnBox(const BoxSpec& spec);
         void step(double dt, const Outputs& out);
 
         const Inputs& inputs() const { return in_; }
         const std::vector<Box>& boxes()  const { return boxes_; }
-        int                     rejectedCount() const { return rejected_; }
+
+        // Production counters (what the SCADA will show)
+        int  spawnedCount()     const { return nextId_ - 1; }
+        int  rejectedCount()    const { return rejected_; }
+        int  placedTotal()      const { return placedTotal_; }
+        int  placedOnPallet()   const { return palletCount_; }
+        int  palletsCompleted() const { return palletsCompleted_; }
+        int  droppedCount()     const { return dropped_; }
+        bool holdingBox()       const { return held_.has_value(); }
 
         // Fault injection access
         MotorModel& motor() { return motor_; }
         LinearActuator& rejectCylinder() { return rejectCyl_; }
         LinearActuator& stacker() { return stacker_; }
         LinearActuator& gripper() { return gripper_; }
+        void blockPalletArrival(bool b) { palletArrivalBlocked_ = b; }   // "missing pallet"
 
     private:
         static bool covers(const Box& b, double posMm);  // does the box body cover posMm?
         const Box* boxAt(double posMm) const;
+        void runFeeder(double dt);
+        void updatePickAndPlace();
+        void updatePallet(double dt, const Outputs& out);
 
         PlantConfig    cfg_;
         MotorModel     motor_;
@@ -71,10 +98,23 @@ namespace plant {
         LinearActuator gripper_;     // 0 = open,      1 = closed
         std::mt19937   rng_;
         std::normal_distribution<double> heightNoise_;
-        std::vector<Box> boxes_;
+        std::mt19937   feederRng_;
+        std::discrete_distribution<int> feederDist_;
+        bool           palletPresent_;
+
+        std::vector<Box>   boxes_;          // on the belt, oldest (front-most) first
+        std::optional<Box> held_;           // box currently in the gripper
         Inputs in_{};
+        double feederTimerS_ = 0.0;
+        double palletTimerS_ = 0.0;
+        bool   palletFull_ = false;
+        bool   palletArrivalBlocked_ = false;
         int nextId_ = 1;
         int rejected_ = 0;
+        int dropped_ = 0;
+        int palletCount_ = 0;
+        int placedTotal_ = 0;
+        int palletsCompleted_ = 0;
     };
 
 } // namespace plant

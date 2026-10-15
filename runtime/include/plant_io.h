@@ -10,6 +10,7 @@ namespace plant {
         bool emergencyStop = false;   // NC wiring: false = pressed (decide when wiring up)
         bool entrySensor = false;
         bool inspectionSensor = false;
+        bool pickupSensor = false;   // NEW (DI 10): a box is waiting at the pickup stop
         bool palletPresent = false;
         bool stackerUpLimit = false;
         bool stackerDownLimit = false;
@@ -28,6 +29,7 @@ namespace plant {
         bool stackerUp = false;
         bool stackerDown = false;
         bool gripperClose = false;
+        bool palletRelease = false;   // NEW (Coil 5): send the full pallet away
         std::int16_t speedSetpointMms = 0;
         std::int16_t plcState = 0;
         std::int16_t activeRecipeId = 0;
