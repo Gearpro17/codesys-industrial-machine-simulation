@@ -43,6 +43,14 @@ namespace plant {
         FeederConfig feeder;
     };
 
+    // What the operator is doing at the panel. The plant turns it into the NC/NO
+    // contact levels the PLC actually reads (see plant_io.h).
+    struct OperatorPanel {
+        bool start = false;   // START push-button held
+        bool stopPressed = false;   // STOP push-button held
+        bool estopPressed = false;   // emergency stop mushroom pressed
+    };
+
     // First-order lag: speed follows the target with time constant tau.
     // This is the process the PID will control in Step 4.
     class MotorModel {
@@ -64,6 +72,7 @@ namespace plant {
         // Puts a box at the belt start. If the entry is occupied it queues behind.
         void spawnBox(const BoxSpec& spec);
         void step(double dt, const Outputs& out);
+        void setPanel(const OperatorPanel& p) { panel_ = p; }
 
         const Inputs& inputs() const { return in_; }
         const std::vector<Box>& boxes()  const { return boxes_; }
@@ -105,6 +114,7 @@ namespace plant {
         std::vector<Box>   boxes_;          // on the belt, oldest (front-most) first
         std::optional<Box> held_;           // box currently in the gripper
         Inputs in_{};
+        OperatorPanel panel_{};
         double feederTimerS_ = 0.0;
         double palletTimerS_ = 0.0;
         bool   palletFull_ = false;

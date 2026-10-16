@@ -152,6 +152,9 @@ namespace plant {
         in_.stackerUpLimit = stacker_.atMax();
         in_.stackerDownLimit = stacker_.atMin();
         in_.gripperClosedFb = gripper_.atMax();
+        in_.startButton = panel_.start;
+        in_.stopButton = !panel_.stopPressed;     // NC contact
+        in_.emergencyStop = !panel_.estopPressed;    // NC contact
         in_.palletPresent = palletPresent_;
         in_.palletFull = palletPresent_ && palletFull_;
     }

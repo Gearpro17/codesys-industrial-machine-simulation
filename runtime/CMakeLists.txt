@@ -5,13 +5,17 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_library(plant STATIC src/plant.cpp)
-target_include_directories(plant PUBLIC include)
+# Everything except main(): plant simulation, controller, cyclic executive.
+add_library(runtime_core STATIC
+  src/plant.cpp
+  src/controller.cpp
+  src/cyclic.cpp)
+target_include_directories(runtime_core PUBLIC include)
 
 add_executable(runtime src/main.cpp)
-target_link_libraries(runtime PRIVATE plant)
+target_link_libraries(runtime PRIVATE runtime_core)
 
-foreach(tgt plant runtime)
+foreach(tgt runtime_core runtime)
   if (MSVC)
     target_compile_options(${tgt} PRIVATE /W4)
   else()
@@ -27,6 +31,9 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 include(GoogleTest)
-add_executable(plant_tests tests/test_plant.cpp)
-target_link_libraries(plant_tests PRIVATE plant GTest::gtest_main)
-gtest_discover_tests(plant_tests)
+add_executable(runtime_tests
+  tests/test_plant.cpp
+  tests/test_controller.cpp
+  tests/test_cyclic.cpp)
+target_link_libraries(runtime_tests PRIVATE runtime_core GTest::gtest_main)
+gtest_discover_tests(runtime_tests)

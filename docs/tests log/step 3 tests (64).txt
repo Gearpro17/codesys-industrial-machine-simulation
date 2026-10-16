@@ -1,0 +1,182 @@
+Running main() from C:\Users\joele\Documents\GitHub\codesys-industrial-machine-simulation\runtime\out\build\x64-Debug\_deps\googletest-src\googletest\src\gtest_main.cc
+[==========] Running 65 tests from 14 test suites.
+[----------] Global test environment set-up.
+[----------] 3 tests from MotorModel
+[ RUN      ] MotorModel.ConvergesToSetpoint
+[       OK ] MotorModel.ConvergesToSetpoint (0 ms)
+[ RUN      ] MotorModel.DoesNotJumpInstantly
+[       OK ] MotorModel.DoesNotJumpInstantly (0 ms)
+[ RUN      ] MotorModel.StuckMotorStaysAtZero
+[       OK ] MotorModel.StuckMotorStaysAtZero (0 ms)
+[----------] 3 tests from MotorModel (1 ms total)
+
+[----------] 5 tests from Plant
+[ RUN      ] Plant.EntrySensorTripsWhenBoxPasses
+[       OK ] Plant.EntrySensorTripsWhenBoxPasses (0 ms)
+[ RUN      ] Plant.HeightMeasuredOnlyAtInspection
+[       OK ] Plant.HeightMeasuredOnlyAtInspection (0 ms)
+[ RUN      ] Plant.SameSeedGivesSameReadings
+[       OK ] Plant.SameSeedGivesSameReadings (0 ms)
+[ RUN      ] Plant.BoxStopsAtMechanicalEnd
+[       OK ] Plant.BoxStopsAtMechanicalEnd (0 ms)
+[ RUN      ] Plant.BoxCoastsAfterMotorOff
+[       OK ] Plant.BoxCoastsAfterMotorOff (0 ms)
+[----------] 5 tests from Plant (2 ms total)
+
+[----------] 4 tests from Stacker
+[ RUN      ] Stacker.StartsAtUpLimit
+[       OK ] Stacker.StartsAtUpLimit (0 ms)
+[ RUN      ] Stacker.TravelsDownInConfiguredTime
+[       OK ] Stacker.TravelsDownInConfiguredTime (0 ms)
+[ RUN      ] Stacker.BothCommandsHoldPosition
+[       OK ] Stacker.BothCommandsHoldPosition (0 ms)
+[ RUN      ] Stacker.StuckNeverReachesLimit
+[       OK ] Stacker.StuckNeverReachesLimit (0 ms)
+[----------] 4 tests from Stacker (1 ms total)
+
+[----------] 1 test from Gripper
+[ RUN      ] Gripper.ClosesAndReopens
+[       OK ] Gripper.ClosesAndReopens (0 ms)
+[----------] 1 test from Gripper (0 ms total)
+
+[----------] 2 tests from RejectCylinder
+[ RUN      ] RejectCylinder.RemovesBoxAtInspectionStation
+[       OK ] RejectCylinder.RemovesBoxAtInspectionStation (0 ms)
+[ RUN      ] RejectCylinder.NoBoxAtStationMeansNothingRejected
+[       OK ] RejectCylinder.NoBoxAtStationMeansNothingRejected (0 ms)
+[----------] 2 tests from RejectCylinder (0 ms total)
+
+[----------] 4 tests from Recipe
+[ RUN      ] Recipe.HeightWithinToleranceMatches
+[       OK ] Recipe.HeightWithinToleranceMatches (0 ms)
+[ RUN      ] Recipe.HeightOutsideToleranceRejected
+[       OK ] Recipe.HeightOutsideToleranceRejected (0 ms)
+[ RUN      ] Recipe.DefaultTableCoversEveryDefaultBoxType
+[       OK ] Recipe.DefaultTableCoversEveryDefaultBoxType (0 ms)
+[ RUN      ] Recipe.NoiseStaysInsideToleranceWindow
+[       OK ] Recipe.NoiseStaysInsideToleranceWindow (0 ms)
+[----------] 4 tests from Recipe (1 ms total)
+
+[----------] 5 tests from Feeder
+[ RUN      ] Feeder.DisabledByDefault
+[       OK ] Feeder.DisabledByDefault (0 ms)
+[ RUN      ] Feeder.SpawnsBoxesAtConfiguredInterval
+[       OK ] Feeder.SpawnsBoxesAtConfiguredInterval (0 ms)
+[ RUN      ] Feeder.BoxesNeverOverlap
+[       OK ] Feeder.BoxesNeverOverlap (1 ms)
+[ RUN      ] Feeder.SameSeedGivesSameBoxSequence
+[       OK ] Feeder.SameSeedGivesSameBoxSequence (0 ms)
+[ RUN      ] Feeder.ProducesMoreThanOneBoxType
+[       OK ] Feeder.ProducesMoreThanOneBoxType (0 ms)
+[----------] 5 tests from Feeder (3 ms total)
+
+[----------] 1 test from Pickup
+[ RUN      ] Pickup.SensorTripsWhenBoxReachesStop
+[       OK ] Pickup.SensorTripsWhenBoxReachesStop (0 ms)
+[----------] 1 test from Pickup (0 ms total)
+
+[----------] 4 tests from Stacking
+[ RUN      ] Stacking.FullCyclePlacesBoxOnPallet
+[       OK ] Stacking.FullCyclePlacesBoxOnPallet (0 ms)
+[ RUN      ] Stacking.GripperClosingOnNothingGrabsNothing
+[       OK ] Stacking.GripperClosingOnNothingGrabsNothing (0 ms)
+[ RUN      ] Stacking.GripperClosedAboveTheBoxGrabsNothing
+[       OK ] Stacking.GripperClosedAboveTheBoxGrabsNothing (0 ms)
+[ RUN      ] Stacking.ReleaseAwayFromPalletDropsBox
+[       OK ] Stacking.ReleaseAwayFromPalletDropsBox (0 ms)
+[----------] 4 tests from Stacking (1 ms total)
+
+[----------] 5 tests from Pallet
+[ RUN      ] Pallet.ReportsFullAtCapacity
+[       OK ] Pallet.ReportsFullAtCapacity (0 ms)
+[ RUN      ] Pallet.FullPalletStaysUntilReleased
+[       OK ] Pallet.FullPalletStaysUntilReleased (0 ms)
+[ RUN      ] Pallet.ReleaseSendsPalletAwayAndNewOneArrives
+[       OK ] Pallet.ReleaseSendsPalletAwayAndNewOneArrives (0 ms)
+[ RUN      ] Pallet.MissingPalletMeansBoxIsDropped
+[       OK ] Pallet.MissingPalletMeansBoxIsDropped (0 ms)
+[ RUN      ] Pallet.ArrivesOnItsOwnWhenNotBlocked
+[       OK ] Pallet.ArrivesOnItsOwnWhenNotBlocked (0 ms)
+[----------] 5 tests from Pallet (2 ms total)
+
+[----------] 12 tests from Controller
+[ RUN      ] Controller.PowersUpStoppedWithAllOutputsOff
+[       OK ] Controller.PowersUpStoppedWithAllOutputsOff (0 ms)
+[ RUN      ] Controller.StartButtonRunsStartupChecksThenRuns
+[       OK ] Controller.StartButtonRunsStartupChecksThenRuns (0 ms)
+[ RUN      ] Controller.RunningDrivesTheConveyorAtTheRunSpeed
+[       OK ] Controller.RunningDrivesTheConveyorAtTheRunSpeed (0 ms)
+[ RUN      ] Controller.StartupCheckFailsWithoutPallet
+[       OK ] Controller.StartupCheckFailsWithoutPallet (0 ms)
+[ RUN      ] Controller.StartupCheckFailsWithStackerNotAtHome
+[       OK ] Controller.StartupCheckFailsWithStackerNotAtHome (0 ms)
+[ RUN      ] Controller.CannotStartWhileStopIsHeld
+[       OK ] Controller.CannotStartWhileStopIsHeld (0 ms)
+[ RUN      ] Controller.EmergencyStopFromRunningCutsAllOutputs
+[       OK ] Controller.EmergencyStopFromRunningCutsAllOutputs (0 ms)
+[ RUN      ] Controller.EmergencyStopNeedsReleaseAndReset
+[       OK ] Controller.EmergencyStopNeedsReleaseAndReset (0 ms)
+[ RUN      ] Controller.FaultCannotBeAcknowledgedImmediately
+[       OK ] Controller.FaultCannotBeAcknowledgedImmediately (0 ms)
+[ RUN      ] Controller.FaultIsAcknowledgedWithStartAfterTheHoldTime
+[       OK ] Controller.FaultIsAcknowledgedWithStartAfterTheHoldTime (0 ms)
+[ RUN      ] Controller.HeartbeatCountsEveryScan
+[       OK ] Controller.HeartbeatCountsEveryScan (0 ms)
+[ RUN      ] Controller.RecipeSelection
+[       OK ] Controller.RecipeSelection (0 ms)
+[----------] 12 tests from Controller (4 ms total)
+
+[----------] 9 tests from ClosedLoop
+[ RUN      ] ClosedLoop.GoodBoxIsInspectedAndStacked
+[       OK ] ClosedLoop.GoodBoxIsInspectedAndStacked (0 ms)
+[ RUN      ] ClosedLoop.WrongHeightBoxIsRejected
+[       OK ] ClosedLoop.WrongHeightBoxIsRejected (0 ms)
+[ RUN      ] ClosedLoop.RecipeChangeChangesWhichBoxIsGood
+[       OK ] ClosedLoop.RecipeChangeChangesWhichBoxIsGood (0 ms)
+[ RUN      ] ClosedLoop.ProductionCountsAgreeAndNoBoxIsLost
+[       OK ] ClosedLoop.ProductionCountsAgreeAndNoBoxIsLost (0 ms)
+[ RUN      ] ClosedLoop.FullPalletIsChangedAndProductionResumes
+[       OK ] ClosedLoop.FullPalletIsChangedAndProductionResumes (0 ms)
+[ RUN      ] ClosedLoop.EveryWrongBoxIsRejected
+[       OK ] ClosedLoop.EveryWrongBoxIsRejected (1 ms)
+[ RUN      ] ClosedLoop.InterlocksHoldOnEveryScan
+[       OK ] ClosedLoop.InterlocksHoldOnEveryScan (1 ms)
+[ RUN      ] ClosedLoop.StopButtonStopsBetweenBoxesWithoutDroppingAnything
+[       OK ] ClosedLoop.StopButtonStopsBetweenBoxesWithoutDroppingAnything (0 ms)
+[ RUN      ] ClosedLoop.EmergencyStopStopsEverythingWithinOneScan
+[       OK ] ClosedLoop.EmergencyStopStopsEverythingWithinOneScan (0 ms)
+[----------] 9 tests from ClosedLoop (7 ms total)
+
+[----------] 6 tests from Faults
+[ RUN      ] Faults.StuckMotorIsDetectedFromCommandedVersusActualSpeed
+[       OK ] Faults.StuckMotorIsDetectedFromCommandedVersusActualSpeed (0 ms)
+[ RUN      ] Faults.StackerThatNeverReachesTheBottomTimesOut
+[       OK ] Faults.StackerThatNeverReachesTheBottomTimesOut (0 ms)
+[ RUN      ] Faults.MachineRecoversAfterTheStackerFaultIsCleared
+[       OK ] Faults.MachineRecoversAfterTheStackerFaultIsCleared (0 ms)
+[ RUN      ] Faults.MissingPalletAtStartIsRefused
+[       OK ] Faults.MissingPalletAtStartIsRefused (0 ms)
+[ RUN      ] Faults.PalletThatNeverArrivesAfterAChangeIsReported
+[       OK ] Faults.PalletThatNeverArrivesAfterAChangeIsReported (0 ms)
+[ RUN      ] Faults.BoxLeftAtPickupWithoutInspectionIsNotStacked
+[       OK ] Faults.BoxLeftAtPickupWithoutInspectionIsNotStacked (0 ms)
+[----------] 6 tests from Faults (2 ms total)
+
+[----------] 4 tests from Cyclic
+[ RUN      ] Cyclic.RunsTheTaskTheRequestedNumberOfCycles
+[       OK ] Cyclic.RunsTheTaskTheRequestedNumberOfCycles (18 ms)
+[ RUN      ] Cyclic.DoesNotRunFasterThanItsPeriod
+[       OK ] Cyclic.DoesNotRunFasterThanItsPeriod (50 ms)
+[ RUN      ] Cyclic.CountsOverrunsWhenTheTaskIsSlowerThanThePeriod
+[       OK ] Cyclic.CountsOverrunsWhenTheTaskIsSlowerThanThePeriod (21 ms)
+[ RUN      ] Cyclic.ExecutionTimeStatisticsAreConsistent
+[       OK ] Cyclic.ExecutionTimeStatisticsAreConsistent (11 ms)
+[----------] 4 tests from Cyclic (102 ms total)
+
+[----------] Global test environment tear-down
+[==========] 65 tests from 14 test suites ran. (139 ms total)
+[  PASSED  ] 65 tests.
+
+C:\Users\joele\Documents\GitHub\codesys-industrial-machine-simulation\runtime\out\build\x64-Debug\runtime_tests.exe (process 14136) exited with code 0 (0x0).
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .

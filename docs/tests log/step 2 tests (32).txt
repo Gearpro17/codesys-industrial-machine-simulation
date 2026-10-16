@@ -1,0 +1,54 @@
+Running main() from C:\Users\joele\Documents\GitHub\codesys-industrial-machine-simulation\runtime\out\build\x64-Debug\_deps\googletest-src\googletest\src\gtest_main.cc
+[==========] Running 15 tests from 5 test suites.
+[----------] Global test environment set-up.
+[----------] 3 tests from MotorModel
+[ RUN      ] MotorModel.ConvergesToSetpoint
+[       OK ] MotorModel.ConvergesToSetpoint (0 ms)
+[ RUN      ] MotorModel.DoesNotJumpInstantly
+[       OK ] MotorModel.DoesNotJumpInstantly (0 ms)
+[ RUN      ] MotorModel.StuckMotorStaysAtZero
+[       OK ] MotorModel.StuckMotorStaysAtZero (0 ms)
+[----------] 3 tests from MotorModel (1 ms total)
+
+[----------] 5 tests from Plant
+[ RUN      ] Plant.EntrySensorTripsWhenBoxPasses
+[       OK ] Plant.EntrySensorTripsWhenBoxPasses (0 ms)
+[ RUN      ] Plant.HeightMeasuredOnlyAtInspection
+[       OK ] Plant.HeightMeasuredOnlyAtInspection (0 ms)
+[ RUN      ] Plant.SameSeedGivesSameReadings
+[       OK ] Plant.SameSeedGivesSameReadings (0 ms)
+[ RUN      ] Plant.BoxStopsAtMechanicalEnd
+[       OK ] Plant.BoxStopsAtMechanicalEnd (0 ms)
+[ RUN      ] Plant.BoxCoastsAfterMotorOff
+[       OK ] Plant.BoxCoastsAfterMotorOff (0 ms)
+[----------] 5 tests from Plant (2 ms total)
+
+[----------] 4 tests from Stacker
+[ RUN      ] Stacker.StartsAtUpLimit
+[       OK ] Stacker.StartsAtUpLimit (0 ms)
+[ RUN      ] Stacker.TravelsDownInConfiguredTime
+[       OK ] Stacker.TravelsDownInConfiguredTime (0 ms)
+[ RUN      ] Stacker.BothCommandsHoldPosition
+[       OK ] Stacker.BothCommandsHoldPosition (0 ms)
+[ RUN      ] Stacker.StuckNeverReachesLimit
+[       OK ] Stacker.StuckNeverReachesLimit (0 ms)
+[----------] 4 tests from Stacker (1 ms total)
+
+[----------] 1 test from Gripper
+[ RUN      ] Gripper.ClosesAndReopens
+[       OK ] Gripper.ClosesAndReopens (0 ms)
+[----------] 1 test from Gripper (0 ms total)
+
+[----------] 2 tests from RejectCylinder
+[ RUN      ] RejectCylinder.RemovesBoxAtInspectionStation
+[       OK ] RejectCylinder.RemovesBoxAtInspectionStation (0 ms)
+[ RUN      ] RejectCylinder.NoBoxAtStationMeansNothingRejected
+[       OK ] RejectCylinder.NoBoxAtStationMeansNothingRejected (0 ms)
+[----------] 2 tests from RejectCylinder (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 15 tests from 5 test suites ran. (9 ms total)
+[  PASSED  ] 15 tests.
+
+C:\Users\joele\Documents\GitHub\codesys-industrial-machine-simulation\runtime\out\build\x64-Debug\plant_tests.exe (process 21876) exited with code 0 (0x0).
+Press any key to close this window . . .

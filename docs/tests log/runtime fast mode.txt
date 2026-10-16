@@ -1,0 +1,52 @@
+Palletizer runtime, fast mode, 10 ms scan
+[   1.02 s] STARTING
+[   1.52 s] RUNNING
+[   5.42 s] INSPECTION
+[   6.79 s] TRANSFERRING   (measured height 120.03 mm, recipe Box M expects 120.00)
+[   8.35 s] STACKING
+[  11.76 s] RUNNING
+[  12.89 s] INSPECTION
+[  14.23 s] TRANSFERRING   (measured height 119.83 mm, recipe Box M expects 120.00)
+[  15.81 s] STACKING
+[  19.22 s] RUNNING
+[  19.77 s] INSPECTION
+[  21.02 s] TRANSFERRING   (measured height 120.18 mm, recipe Box M expects 120.00)
+[  22.68 s] STACKING
+[  26.09 s] RUNNING
+[  26.63 s] INSPECTION
+[  27.88 s] TRANSFERRING   (measured height 119.94 mm, recipe Box M expects 120.00)
+[  29.54 s] STACKING
+[  32.95 s] PALLET_FULL
+[  33.45 s] PALLET_CHANGE
+[  36.47 s] RUNNING
+[  37.01 s] INSPECTION
+[  38.26 s] TRANSFERRING   (measured height 120.01 mm, recipe Box M expects 120.00)
+[  39.92 s] STACKING
+[  43.33 s] RUNNING
+[  43.87 s] INSPECTION
+[  45.12 s] REJECTING   (measured height 80.12 mm, recipe Box M expects 120.00)
+[  46.32 s] RUNNING
+[  48.63 s] INSPECTION
+[  50.00 s] TRANSFERRING   (measured height 120.13 mm, recipe Box M expects 120.00)
+[  51.55 s] STACKING
+[  54.96 s] RUNNING
+[  55.52 s] INSPECTION
+[  56.78 s] TRANSFERRING   (measured height 120.03 mm, recipe Box M expects 120.00)
+[  58.43 s] STACKING
+[  61.84 s] RUNNING
+[  62.39 s] INSPECTION
+[  63.64 s] TRANSFERRING   (measured height 119.90 mm, recipe Box M expects 120.00)
+[  65.29 s] STACKING
+[  68.70 s] PALLET_FULL
+[  69.20 s] PALLET_CHANGE
+[  72.22 s] RUNNING
+
+Summary after 72.22 s simulated
+  boxes fed       : 10
+  stacked (good)  : 8
+  rejected        : 1
+  pallets done    : 2
+  boxes dropped   : 0
+
+C:\Users\joele\Documents\GitHub\codesys-industrial-machine-simulation\runtime\out\build\x64-Debug\runtime.exe (process 22956) exited with code 0 (0x0).
+Press any key to close this window . . .

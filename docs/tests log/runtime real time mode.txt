@@ -1,0 +1,25 @@
+PS C:\Users\joele\Documents\GitHub\codesys-industrial-machine-simulation\runtime> .\out\build\x64-Debug\runtime.exe --realtime --seconds 20
+Palletizer runtime, real-time mode, 10 ms scan
+[   1.02 s] STARTING
+[   1.52 s] RUNNING
+[   5.42 s] INSPECTION
+[   6.79 s] TRANSFERRING   (measured height 120.03 mm, recipe Box M expects 120.00)
+[   8.35 s] STACKING
+[  11.76 s] RUNNING
+[  12.89 s] INSPECTION
+[  14.23 s] TRANSFERRING   (measured height 119.83 mm, recipe Box M expects 120.00)
+[  15.81 s] STACKING
+[  19.22 s] RUNNING
+[  19.77 s] INSPECTION
+
+Cycle statistics (2000 cycles, period 10000 us)
+  execution time  min/mean/max: 1.90 / 5.21 / 866.50 us
+  start jitter    mean/max:      154.65 / 1444.50 us
+  overruns: 0
+
+Summary after 20.00 s simulated
+  boxes fed       : 4
+  stacked (good)  : 2
+  rejected        : 0
+  pallets done    : 0
+  boxes dropped   : 0

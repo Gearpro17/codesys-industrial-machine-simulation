@@ -4,13 +4,18 @@
 namespace plant {
 
     // Plant -> PLC (what the PLC reads). Scaled integers, as on the Modbus wire.
+    //
+    // Wiring convention (document this in docs/io_map.md):
+    //   stopButton and emergencyStop are NC (normally closed) contacts:
+    //   TRUE = healthy / not pressed, FALSE = pressed OR wire broken.
+    //   startButton is a normal NO push-button: TRUE = pressed.
     struct Inputs {
         bool startButton = false;
-        bool stopButton = false;
-        bool emergencyStop = false;   // NC wiring: false = pressed (decide when wiring up)
+        bool stopButton = true;    // NC
+        bool emergencyStop = true;    // NC
         bool entrySensor = false;
         bool inspectionSensor = false;
-        bool pickupSensor = false;   // NEW (DI 10): a box is waiting at the pickup stop
+        bool pickupSensor = false;   // DI 10: a box is waiting at the pickup stop
         bool palletPresent = false;
         bool stackerUpLimit = false;
         bool stackerDownLimit = false;
@@ -29,7 +34,7 @@ namespace plant {
         bool stackerUp = false;
         bool stackerDown = false;
         bool gripperClose = false;
-        bool palletRelease = false;   // NEW (Coil 5): send the full pallet away
+        bool palletRelease = false;   // Coil 5: send the full pallet away
         std::int16_t speedSetpointMms = 0;
         std::int16_t plcState = 0;
         std::int16_t activeRecipeId = 0;
