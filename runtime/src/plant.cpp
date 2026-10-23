@@ -20,6 +20,7 @@ namespace plant {
     Plant::Plant(PlantConfig cfg, unsigned seed)
         : cfg_(cfg),
         motor_(cfg.motorTauS),
+        driveMotor_(cfg.motorTauS, cfg.driveMotor),
         rejectCyl_(cfg.rejectTravelS, 0.0),   // starts retracted
         stacker_(cfg.stackerTravelS, 1.0),    // starts up (home)
         gripper_(cfg.gripperTravelS, 0.0),    // starts open
@@ -28,6 +29,10 @@ namespace plant {
         feederRng_(seed + 1000u),
         feederDist_(cfg.feeder.weights.begin(), cfg.feeder.weights.end()),
         palletPresent_(cfg.startWithPallet) {
+    }
+
+    double Plant::beltSpeedMms() const {
+        return cfg_.motorMode == MotorMode::Physical ? driveMotor_.speedMms() : motor_.speedMms();
     }
 
     void Plant::spawnBox(const BoxSpec& spec) {
@@ -105,8 +110,11 @@ namespace plant {
         runFeeder(dt);
 
         // --- Belt: each box queues behind the one in front of it ---
-        motor_.step(dt, out.conveyorMotor, out.speedSetpointMms);
-        const double v = motor_.speedMms();
+        if (cfg_.motorMode == MotorMode::Physical)
+            driveMotor_.step(dt, driveCmdPct_, boxesOnBelt());
+        else
+            motor_.step(dt, out.conveyorMotor, out.speedSetpointMms);
+        const double v = beltSpeedMms();
         double limit = cfg_.pickupStopMm;
         for (auto& b : boxes_) {
             b.frontMm = std::min(b.frontMm + v * dt, limit);

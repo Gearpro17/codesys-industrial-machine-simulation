@@ -8,6 +8,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Everything except main(): plant simulation, controller, cyclic executive.
 add_library(runtime_core STATIC
   src/plant.cpp
+  src/drive_motor.cpp
+  src/pid.cpp
+  src/speed_loop.cpp
   src/controller.cpp
   src/cyclic.cpp)
 target_include_directories(runtime_core PUBLIC include)
@@ -34,6 +37,9 @@ include(GoogleTest)
 add_executable(runtime_tests
   tests/test_plant.cpp
   tests/test_controller.cpp
-  tests/test_cyclic.cpp)
+  tests/test_cyclic.cpp
+  tests/test_pid.cpp
+  tests/test_speed_loop.cpp
+  tests/test_machine_pid.cpp)
 target_link_libraries(runtime_tests PRIVATE runtime_core GTest::gtest_main)
 gtest_discover_tests(runtime_tests)
