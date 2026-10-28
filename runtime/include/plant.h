@@ -1,5 +1,6 @@
 #pragma once
 #include "actuators.h"
+#include "drive_motor.h"
 #include "plant_io.h"
 #include <optional>
 #include <random>
@@ -28,7 +29,14 @@ namespace plant {
         std::vector<double>  weights = { 0.70, 0.15, 0.15 };   // one per catalog entry
     };
 
+    enum class MotorMode {
+        Ideal,      // built-in controller: speed follows Outputs::speedSetpointMms by itself
+        Physical    // drive command in % (setDriveCommand) -> belt speed; needs a SpeedLoop
+    };
+
     struct PlantConfig {
+        MotorMode motorMode = MotorMode::Ideal;
+        DriveMotorConfig driveMotor;     // used in Physical mode (the lag is motorTauS)
         double entrySensorMm = 300.0;
         double inspectionMm = 1200.0;
         double pickupStopMm = 2000.0;  // mechanical stop: boxes cannot go further
@@ -74,6 +82,13 @@ namespace plant {
         void step(double dt, const Outputs& out);
         void setPanel(const OperatorPanel& p) { panel_ = p; }
 
+        // Physical motor mode only: drive command in % (-100..+100), held until changed.
+        // Outputs::conveyorMotor / speedSetpointMms are ignored in this mode (the SpeedLoop uses them).
+        void setDriveCommand(double pct) { driveCmdPct_ = pct; }
+        MotorMode motorMode() const { return cfg_.motorMode; }
+        int boxesOnBelt() const { return static_cast<int>(boxes_.size()); }
+        double beltSpeedMms() const;
+
         const Inputs& inputs() const { return in_; }
         const std::vector<Box>& boxes()  const { return boxes_; }
 
@@ -88,6 +103,8 @@ namespace plant {
 
         // Fault injection access
         MotorModel& motor() { return motor_; }
+        DriveMotorModel& driveMotor() { return driveMotor_; }
+        void setMotorStuck(bool stuck) { motor_.setStuck(stuck); driveMotor_.setStuck(stuck); }
         LinearActuator& rejectCylinder() { return rejectCyl_; }
         LinearActuator& stacker() { return stacker_; }
         LinearActuator& gripper() { return gripper_; }
@@ -102,7 +119,9 @@ namespace plant {
 
         PlantConfig    cfg_;
         MotorModel     motor_;
-        LinearActuator rejectCyl_;   // 0 = retracted, 1 = extended
+        DriveMotorModel driveMotor_;
+        double         driveCmdPct_ = 0.0;
+        LinearActuator rejectCyl_;  // 0 = retracted, 1 = extended
         LinearActuator stacker_;     // 0 = down,      1 = up
         LinearActuator gripper_;     // 0 = open,      1 = closed
         std::mt19937   rng_;
